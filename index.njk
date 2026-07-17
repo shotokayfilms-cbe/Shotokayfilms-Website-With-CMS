@@ -162,69 +162,164 @@ permalink: /
 
         {% if project.data.featured %}
 
-          <div
-            class="pf-card{% if project.data.video %} video-project{% endif %}"
-            {% if project.data.video %}
+
+          {# ==================================================
+             VIDEO PROJECT
+          =================================================== #}
+
+          {% if project.data.video %}
+
+            <div
+              class="pf-card video-project"
               data-video="{{ project.data.video }}"
               role="button"
               tabindex="0"
               aria-label="Play {{ project.data.title }}"
-            {% endif %}
-          >
-
-
-            <div
-              class="pf-screen"
-              {% if project.data.thumbnail %}
-                style="
-                  background-image: url('{{ project.data.thumbnail }}');
-                  background-size: cover;
-                  background-position: center;
-                  background-repeat: no-repeat;
-                "
-              {% endif %}
             >
 
-              {% if project.data.video %}
+              <div
+                class="pf-screen"
+                {% if project.data.thumbnail %}
+                  style="
+                    background-image: url('{{ project.data.thumbnail }}');
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                  "
+                {% endif %}
+              >
 
                 <span class="pf-label mono">
                   ▶ PLAY
                 </span>
 
-              {% else %}
+              </div>
 
-                <span class="pf-label mono">
-                  REEL
+
+              <div class="pf-meta">
+
+                <span class="pf-name">
+                  {{ project.data.title }}
                 </span>
 
-              {% endif %}
+                <span class="pf-tag mono">
+
+                  {% if project.data.date %}
+                    {{ project.data.date }}
+                  {% else %}
+                    {{ project.data.category }}
+                  {% endif %}
+
+                </span>
+
+              </div>
 
             </div>
 
 
-            <div class="pf-meta">
 
-              <span class="pf-name">
-                {{ project.data.title }}
-              </span>
+          {# ==================================================
+             PHOTOGRAPHY / GALLERY PROJECT
+          =================================================== #}
 
-              <span class="pf-tag mono">
+          {% elif project.data.gallery %}
 
-                {% if project.data.date %}
+            <a
+              href="{{ project.url }}"
+              class="pf-card gallery-project"
+              aria-label="View {{ project.data.title }}"
+            >
 
-                  {{ project.data.date }}
-
-                {% else %}
-
-                  {{ project.data.category }}
-
+              <div
+                class="pf-screen"
+                {% if project.data.thumbnail %}
+                  style="
+                    background-image: url('{{ project.data.thumbnail }}');
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                  "
                 {% endif %}
+              >
 
-              </span>
+                <span class="pf-label mono">
+                  VIEW PROJECT
+                </span>
+
+              </div>
+
+
+              <div class="pf-meta">
+
+                <span class="pf-name">
+                  {{ project.data.title }}
+                </span>
+
+                <span class="pf-tag mono">
+
+                  {% if project.data.date %}
+                    {{ project.data.date }}
+                  {% else %}
+                    {{ project.data.category }}
+                  {% endif %}
+
+                </span>
+
+              </div>
+
+            </a>
+
+
+
+          {# ==================================================
+             PROJECT WITHOUT VIDEO OR GALLERY
+          =================================================== #}
+
+          {% else %}
+
+            <div class="pf-card">
+
+              <div
+                class="pf-screen"
+                {% if project.data.thumbnail %}
+                  style="
+                    background-image: url('{{ project.data.thumbnail }}');
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                  "
+                {% endif %}
+              >
+
+                <span class="pf-label mono">
+                  PROJECT
+                </span>
+
+              </div>
+
+
+              <div class="pf-meta">
+
+                <span class="pf-name">
+                  {{ project.data.title }}
+                </span>
+
+                <span class="pf-tag mono">
+
+                  {% if project.data.date %}
+                    {{ project.data.date }}
+                  {% else %}
+                    {{ project.data.category }}
+                  {% endif %}
+
+                </span>
+
+              </div>
 
             </div>
 
-          </div>
+          {% endif %}
+
 
         {% endif %}
 
@@ -425,11 +520,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const url = new URL(videoUrl);
 
 
-        /*
-        YouTube short link
-        youtu.be/VIDEO_ID
-        */
-
         if (url.hostname.includes("youtu.be")) {
 
           videoId = url.pathname
@@ -438,11 +528,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
-
-        /*
-        YouTube Shorts
-        youtube.com/shorts/VIDEO_ID
-        */
 
         else if (url.pathname.includes("/shorts/")) {
 
@@ -453,11 +538,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        /*
-        Standard YouTube link
-        youtube.com/watch?v=VIDEO_ID
-        */
-
         else {
 
           videoId = url.searchParams.get("v");
@@ -465,6 +545,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
       }
+
 
       catch (error) {
 
@@ -523,6 +604,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
       }
+
 
       catch (error) {
 
@@ -584,7 +666,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /*
   ============================================================
-  PROJECT CARD CLICK
+  VIDEO PROJECT INTERACTIONS
   ============================================================
   */
 
@@ -599,10 +681,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     );
 
-
-    /*
-    Keyboard support
-    */
 
     card.addEventListener(
       "keydown",
@@ -641,11 +719,6 @@ document.addEventListener("DOMContentLoaded", () => {
       "true"
     );
 
-
-    /*
-    Clear iframe to stop playback
-    */
-
     player.src = "";
 
     document.body.style.overflow = "";
@@ -653,21 +726,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-
-  /*
-  Close button
-  */
-
   closeButton.addEventListener(
     "click",
     closeVideo
   );
 
-
-
-  /*
-  Click outside video
-  */
 
   modal.addEventListener(
     "click",
@@ -682,11 +745,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   );
 
-
-
-  /*
-  Escape key
-  */
 
   document.addEventListener(
     "keydown",
