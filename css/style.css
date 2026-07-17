@@ -294,3 +294,70 @@
   /* CTA BANNER */
   .cta-banner { padding:60px 0; text-align:center; border-top:1px solid var(--border); }
   .cta-banner h2 { font-size:clamp(24px,5vw,38px); margin-bottom:20px; }
+/* =========================
+   VIDEO POPUP
+========================= */
+
+.video-project {
+  cursor: pointer;
+}
+
+.video-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.92);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.video-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.video-modal-content {
+  position: relative;
+  width: min(1200px, 90vw);
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.video-modal-content iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.video-modal-close {
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  z-index: 2;
+  background: transparent;
+  border: 0;
+  color: white;
+  font-size: 42px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .video-modal {
+    padding: 15px;
+  }
+
+  .video-modal-content {
+    width: 100%;
+  }
+
+  .video-modal-close {
+    top: 15px;
+    right: 15px;
+  }
+}
