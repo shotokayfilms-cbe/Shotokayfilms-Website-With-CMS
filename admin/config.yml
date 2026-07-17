@@ -84,6 +84,92 @@ collections:
               - { label: "Headline", name: "headline", widget: "string" }
               - { label: "Short Description", name: "description", widget: "text" }
               - { label: "Long Description (Services page)", name: "longDescription", widget: "text" }
+              # ============================================================
+# SHOT OKAY FILMS — DECAP CMS CONFIGURATION
+# ============================================================
+
+backend:
+  name: github
+  repo: shotokayfilms-cbe/Shotokayfilms-Website-With-CMS
+  branch: main
+  base_url: https://shotokayfilms-cms-oauth.vercel.app
+  auth_endpoint: /api/auth
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "projects"
+    label: "Projects"
+    label_singular: "Project"
+    folder: "projects"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    fields:
+      - { label: "Tags", name: "tags", widget: "hidden", default: "projects" }
+      - { label: "Title", name: "title", widget: "string" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+                options:
+          - "Commercials & Brand Films"
+          - "Social Media Content"
+          - "Product Photo & Video"
+          - "Architecture & Interiors"
+          - "Fashion & Lifestyle"
+          - "Personal Branding"
+          - "Real Estate Media"
+          - "Films & Original Content"
+      - { label: "Thumbnail Image", name: "thumbnail", widget: "image", required: false, hint: "Optional — a poster frame for the project card" }
+      - { label: "Video URL (YouTube or Vimeo link)", name: "video", widget: "string", required: false }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Show on homepage as a Featured Project", name: "featured", widget: "boolean", default: false }
+      - { label: "Date", name: "date", widget: "string", required: false, hint: "e.g. 2026 — shown as a small tag on the card" }
+      - { label: "Sort order (higher = shows first)", name: "order", widget: "number", default: 1, required: false }
+
+  - name: "settings"
+    label: "Site Settings"
+    editor:
+      preview: false
+    files:
+      - name: "site"
+        label: "Contact & Socials"
+        file: "_data/site.json"
+        fields:
+          - { label: "Business Name", name: "name", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "string" }
+          - { label: "Phone (display format)", name: "phone_display", widget: "string", hint: "e.g. +91 88917 35100" }
+          - { label: "Phone (digits only, with country code)", name: "phone_e164", widget: "string", hint: "e.g. 918891735100" }
+          - { label: "WhatsApp Number (digits only)", name: "whatsapp", widget: "string" }
+          - { label: "Address Line 1", name: "address_line1", widget: "string" }
+          - { label: "Address Line 2", name: "address_line2", widget: "string" }
+          - { label: "Business Hours", name: "hours", widget: "string" }
+          - { label: "Get Directions Link", name: "directions_url", widget: "string" }
+          - { label: "Facebook URL", name: "facebook_url", widget: "string" }
+          - { label: "Instagram URL", name: "instagram_url", widget: "string" }
+          - { label: "LinkedIn URL", name: "linkedin_url", widget: "string" }
+
+  - name: "services"
+    label: "Services"
+    editor:
+      preview: false
+    files:
+      - name: "services"
+        label: "Services List"
+        file: "_data/services.json"
+        fields:
+          - label: "Services"
+            name: "services"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Internal ID (no spaces)", name: "id", widget: "string" }
+              - { label: "Monitor Label", name: "cam", widget: "string", hint: "e.g. CAM 01" }
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Headline", name: "headline", widget: "string" }
+              - { label: "Short Description", name: "description", widget: "text" }
+              - { label: "Long Description (Services page)", name: "longDescription", widget: "text" }
               - label: "Icon"
                 name: "icon"
                 widget: "select"
@@ -96,6 +182,29 @@ collections:
                   - "branding"
                   - "realestate"
                   - "films"
+
+  - name: "pages"
+    label: "Pages"
+    editor:
+      preview: false
+    files:
+      - name: "about"
+        label: "About Page"
+        file: "content/about.json"
+        fields:
+          - { label: "Founder Name", name: "founder_name", widget: "string" }
+          - { label: "Bio Paragraph 1", name: "bio1", widget: "text" }
+          - { label: "Bio Paragraph 2", name: "bio2", widget: "text" }
+          - { label: "Bio Paragraph 3", name: "bio3", widget: "text" }
+          - label: "Process Steps"
+            name: "process"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Step Label", name: "step", widget: "string", hint: "e.g. STEP 01" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+
 
   - name: "pages"
     label: "Pages"
