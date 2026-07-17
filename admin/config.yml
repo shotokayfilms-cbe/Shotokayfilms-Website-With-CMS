@@ -53,12 +53,23 @@ collections:
         name: "thumbnail"
         widget: "image"
         required: false
-        hint: "Optional — a poster frame for the project card"
+        hint: "Main cover image shown on the homepage and portfolio cards."
 
       - label: "Video URL (YouTube or Vimeo link)"
         name: "video"
         widget: "string"
         required: false
+        hint: "For video projects. Leave empty for photography-only projects."
+
+      - label: "Project Gallery"
+        name: "gallery"
+        widget: "list"
+        required: false
+        hint: "Upload multiple images for photography projects. Drag to reorder them."
+        field:
+          label: "Image"
+          name: "image"
+          widget: "image"
 
       - label: "Description"
         name: "description"
