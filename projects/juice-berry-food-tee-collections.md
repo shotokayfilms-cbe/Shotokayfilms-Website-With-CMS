@@ -2,7 +2,7 @@
 tags: projects
 title: Juice Berry Food Tee Collections
 category: Product Photo & Video
-thumbnail: /assets/uploads/artboard-5.jpg
+thumbnail: /assets/uploads/artboard-5-copy.png
 gallery:
   - /assets/uploads/artboard-6.jpg
   - /assets/uploads/artboard-5.jpg
