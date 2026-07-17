@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: Shot Okay Films — Every Frame Should Tell a Story
+title: Shot Okay Films — Film & Photography Production in Coimbatore
 permalink: /
 ---
 {% from "icons.njk" import serviceIcon %}
@@ -12,14 +12,25 @@ permalink: /
       <span class="mono">PGM · LIVE</span>
       <span class="tc mono">00:00:00:00</span>
     </div>
+
     <div class="pgm-screen">
-      <h1>Every frame should <span class="accent">tell a story.</span></h1>
-      <p class="subhead">Brands. People. Places. Stories. If it deserves to be seen, we know how to frame it.</p>
+      <h1>
+        Every idea starts with a vision.<br>
+        We work until the frame says, <span class="accent">“Shot Okay.”</span>
+      </h1>
+
+      <p class="subhead">
+        Creative film and photography production from Coimbatore, built for brands, people, products, and stories that deserve attention.
+      </p>
+
       <div class="cta-row">
         <a href="/contact/" class="btn-rec">Get a Free Quote</a>
-        <a href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" class="tel-link">or WhatsApp us directly →</a>
+        <a href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" class="tel-link">
+          or WhatsApp us directly →
+        </a>
       </div>
     </div>
+
     <div class="waveform" id="waveform"></div>
   </div>
 </div>
@@ -28,19 +39,41 @@ permalink: /
   <div class="wrap">
     <span class="eyebrow mono">VIDEO VILLAGE — MONITOR WALL</span>
     <h2>What we shoot</h2>
+
     <div class="wall-grid">
       {% for s in services.services %}
-      <div class="monitor{% if loop.first %} active{% endif %}" data-id="{{ s.id }}" data-headline="{{ s.headline }}" data-desc="{{ s.description }}">
-        <div class="mtop"><span class="tally-dot{% if loop.first %} on{% endif %}"></span><span class="mono">{{ s.cam }}</span><span class="tc mono">00:00:00:00</span></div>
-        <div class="mscreen">{{ serviceIcon(s.icon) }}<span class="sname">{{ s.name }}</span></div>
+      <div
+        class="monitor{% if loop.first %} active{% endif %}"
+        data-id="{{ s.id }}"
+        data-headline="{{ s.headline }}"
+        data-desc="{{ s.description }}"
+      >
+        <div class="mtop">
+          <span class="tally-dot{% if loop.first %} on{% endif %}"></span>
+          <span class="mono">{{ s.cam }}</span>
+          <span class="tc mono">00:00:00:00</span>
+        </div>
+
+        <div class="mscreen">
+          {{ serviceIcon(s.icon) }}
+          <span class="sname">{{ s.name }}</span>
+        </div>
       </div>
       {% endfor %}
     </div>
+
     <div class="wall-panel">
       <h3>{{ services.services[0].headline }}</h3>
       <p>{{ services.services[0].description }}</p>
-      <a href="/contact/?service={{ services.services[0].name | urlencode }}" class="btn-rec">Quote this shoot</a>
+
+      <a
+        href="/contact/?service={{ services.services[0].name | urlencode }}"
+        class="btn-rec"
+      >
+        Quote this shoot
+      </a>
     </div>
+
     <a href="/services/" class="view-all-link">→ View all services</a>
   </div>
 </section>
@@ -49,20 +82,58 @@ permalink: /
   <div class="wrap">
     <span class="eyebrow mono">SELECTED WORK</span>
     <h2>Featured projects</h2>
+
     <div class="portfolio-grid">
       {% for project in collections.projects | reverse %}
         {% if project.data.featured %}
+
         <div class="pf-card">
-          <div class="pf-screen"><span class="pf-label mono">REEL</span></div>
-          <div class="pf-meta"><span class="pf-name">{{ project.data.title }}</span><span class="pf-tag mono">{{ project.data.category }}</span></div>
+          <div class="pf-screen">
+            <span class="pf-label mono">REEL</span>
+          </div>
+
+          <div class="pf-meta">
+            <span class="pf-name">{{ project.data.title }}</span>
+            <span class="pf-tag mono">{{ project.data.category }}</span>
+          </div>
         </div>
+
         {% endif %}
       {% else %}
-        <div class="pf-card"><div class="pf-screen"><span class="pf-label mono">REEL 01</span></div><div class="pf-meta"><span class="pf-name">Commercial Ads</span><span class="pf-tag mono">Coming soon</span></div></div>
-        <div class="pf-card"><div class="pf-screen"><span class="pf-label mono">REEL 02</span></div><div class="pf-meta"><span class="pf-name">Product Photography</span><span class="pf-tag mono">Coming soon</span></div></div>
-        <div class="pf-card"><div class="pf-screen"><span class="pf-label mono">REEL 03</span></div><div class="pf-meta"><span class="pf-name">Real Estate Media</span><span class="pf-tag mono">Coming soon</span></div></div>
+
+        <div class="pf-card">
+          <div class="pf-screen">
+            <span class="pf-label mono">REEL 01</span>
+          </div>
+          <div class="pf-meta">
+            <span class="pf-name">Commercials & Brand Films</span>
+            <span class="pf-tag mono">Coming soon</span>
+          </div>
+        </div>
+
+        <div class="pf-card">
+          <div class="pf-screen">
+            <span class="pf-label mono">REEL 02</span>
+          </div>
+          <div class="pf-meta">
+            <span class="pf-name">Product Photo & Video</span>
+            <span class="pf-tag mono">Coming soon</span>
+          </div>
+        </div>
+
+        <div class="pf-card">
+          <div class="pf-screen">
+            <span class="pf-label mono">REEL 03</span>
+          </div>
+          <div class="pf-meta">
+            <span class="pf-name">Films & Original Content</span>
+            <span class="pf-tag mono">Coming soon</span>
+          </div>
+        </div>
+
       {% endfor %}
     </div>
+
     <a href="/portfolio/" class="view-all-link">→ View full portfolio</a>
   </div>
 </section>
@@ -70,30 +141,44 @@ permalink: /
 <section class="notes-section">
   <div class="wrap">
     <div class="notes-grid">
+
       <div class="note">
         <span class="mono">CREW NOTE 01</span>
-        <h3>One studio, every vertical</h3>
-        <p>No juggling separate vendors for your ads, product shots, and real estate media — one team, one visual language.</p>
+        <h3>One team, every frame</h3>
+        <p>
+          From commercials and product campaigns to spaces and original films —
+          one creative team, one consistent visual language.
+        </p>
       </div>
+
       <div class="note">
         <span class="mono">CREW NOTE 02</span>
         <h3>Shot for the platform</h3>
-        <p>Every frame is composed for how people actually watch it — feed, reel, listing, or storefront.</p>
+        <p>
+          Every frame is composed for where people actually watch it —
+          from the big screen to the smallest scroll.
+        </p>
       </div>
+
       <div class="note">
         <span class="mono">CREW NOTE 03</span>
         <h3>Direction, not just a camera</h3>
-        <p>Concept, lighting, and story come built in — you get a finished look, not just raw footage.</p>
+        <p>
+          Concept, lighting, movement, and story come built in —
+          because a good-looking frame should still have something to say.
+        </p>
       </div>
+
     </div>
   </div>
 </section>
 
 <section class="cta-banner">
   <div class="wrap">
-    <h2>Ready to shoot?</h2>
+    <h2>Have an idea worth shooting?</h2>
+
     <div class="cta-row">
-      <a href="/contact/" class="btn-rec">Get a Free Quote</a>
+      <a href="/contact/" class="btn-rec">Let's make it Shot Okay</a>
     </div>
   </div>
 </section>
