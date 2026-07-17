@@ -6,7 +6,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("admin");
 
   // Automatically collect every Markdown file inside /projects
-  eleventyConfig.addCollection("projects", function (collectionApi) {
+  eleventyConfig.addCollection("portfolioProjects", function (collectionApi) {
     return collectionApi
       .getFilteredByGlob("./projects/*.md")
       .sort((a, b) => {
