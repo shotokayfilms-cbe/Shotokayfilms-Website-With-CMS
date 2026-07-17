@@ -26,13 +26,15 @@ collections:
       - label: "Category"
         name: "category"
         widget: "select"
-        options:
-          - "Commercial Ads"
-          - "Product Photography"
-          - "Architecture & Interior"
+                options:
+          - "Commercials & Brand Films"
+          - "Social Media Content"
+          - "Product Photo & Video"
+          - "Architecture & Interiors"
           - "Fashion & Lifestyle"
           - "Personal Branding"
           - "Real Estate Media"
+          - "Films & Original Content"
       - { label: "Thumbnail Image", name: "thumbnail", widget: "image", required: false, hint: "Optional — a poster frame for the project card" }
       - { label: "Video URL (YouTube or Vimeo link)", name: "video", widget: "string", required: false }
       - { label: "Description", name: "description", widget: "text", required: false }
