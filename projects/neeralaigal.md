@@ -1,7 +1,7 @@
 ---
 tags: projects
 title: Neeralaigal - music video
-category: Fashion & Lifestyle
+category: Films & Original Content
 thumbnail: /assets/uploads/artboard-1.jpg
 video: https://youtu.be/kg_GED_Z6nM?si=A7OZgSUDUh6SpX9b
 description: |-
