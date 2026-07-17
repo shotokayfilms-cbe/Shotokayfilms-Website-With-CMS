@@ -1,8 +1,7 @@
 # ============================================================
-# BEFORE THIS WORKS, fill in these two lines:
-#   repo:     your-github-username/your-repo-name
-#   base_url: the URL of your deployed OAuth proxy (see README.md)
+# SHOT OKAY FILMS — DECAP CMS CONFIGURATION
 # ============================================================
+
 backend:
   name: github
   repo: shotokayfilms-cbe/Shotokayfilms-Website-With-CMS
@@ -22,6 +21,7 @@ collections:
     slug: "{{slug}}"
     identifier_field: title
     fields:
+      - { label: "Tags", name: "tags", widget: "hidden", default: "projects" }
       - { label: "Title", name: "title", widget: "string" }
       - label: "Category"
         name: "category"
