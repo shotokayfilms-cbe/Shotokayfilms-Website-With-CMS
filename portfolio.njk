@@ -28,16 +28,12 @@ permalink: /portfolio/
 
           {% if project.data.category == s.name %}
 
-            {% if project.data.video %}
-            <a
-              href="{{ project.data.video }}"
-              target="_blank"
-              rel="noopener"
-              class="pf-card"
+            <div
+              class="pf-card video-project"
+              {% if project.data.video %}
+              data-video="{{ project.data.video }}"
+              {% endif %}
             >
-            {% else %}
-            <div class="pf-card">
-            {% endif %}
 
               <div
                 class="pf-screen"
@@ -75,11 +71,7 @@ permalink: /portfolio/
 
               </div>
 
-            {% if project.data.video %}
-            </a>
-            {% else %}
             </div>
-            {% endif %}
 
           {% endif %}
 
@@ -93,12 +85,41 @@ permalink: /portfolio/
 
 </div>
 
+
+<!-- VIDEO POPUP -->
+
+<div class="video-modal" id="videoModal">
+
+  <button
+    class="video-modal-close"
+    id="videoModalClose"
+    aria-label="Close video"
+  >
+    ×
+  </button>
+
+  <div class="video-modal-content">
+
+    <iframe
+      id="videoPlayer"
+      src=""
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+
+  </div>
+
+</div>
+
+
 <section class="cta-banner">
+
   <div class="wrap">
 
     <h2>Want to see more?</h2>
 
     <div class="cta-row">
+
       <a
         href="https://wa.me/{{ site.whatsapp }}"
         target="_blank"
@@ -107,7 +128,144 @@ permalink: /portfolio/
       >
         Ask us on WhatsApp
       </a>
+
     </div>
 
   </div>
+
 </section>
+
+
+<script>
+
+const modal = document.getElementById("videoModal");
+const player = document.getElementById("videoPlayer");
+const closeButton = document.getElementById("videoModalClose");
+
+document.querySelectorAll(".video-project").forEach(card => {
+
+  card.addEventListener("click", () => {
+
+    const videoUrl = card.dataset.video;
+
+    if (!videoUrl) return;
+
+    let embedUrl = "";
+
+    /* YOUTUBE */
+
+    if (
+      videoUrl.includes("youtube.com") ||
+      videoUrl.includes("youtu.be")
+    ) {
+
+      let videoId = "";
+
+      if (videoUrl.includes("youtu.be")) {
+
+        videoId = videoUrl
+          .split("youtu.be/")[1]
+          .split("?")[0];
+
+      } else {
+
+        try {
+
+          const url = new URL(videoUrl);
+
+          videoId = url.searchParams.get("v");
+
+        } catch (error) {
+
+          console.error("Invalid YouTube URL");
+
+        }
+
+      }
+
+      if (videoId) {
+
+        embedUrl =
+          "https://www.youtube.com/embed/" +
+          videoId +
+          "?autoplay=1&rel=0";
+
+      }
+
+    }
+
+
+    /* VIMEO */
+
+    else if (videoUrl.includes("vimeo.com")) {
+
+      const videoId = videoUrl
+        .split("/")
+        .filter(Boolean)
+        .pop()
+        .split("?")[0];
+
+      embedUrl =
+        "https://player.vimeo.com/video/" +
+        videoId +
+        "?autoplay=1";
+
+    }
+
+
+    /* OPEN PLAYER */
+
+    if (embedUrl) {
+
+      player.src = embedUrl;
+
+      modal.classList.add("active");
+
+      document.body.style.overflow = "hidden";
+
+    }
+
+  });
+
+});
+
+
+function closeVideo() {
+
+  modal.classList.remove("active");
+
+  player.src = "";
+
+  document.body.style.overflow = "";
+
+}
+
+
+closeButton.addEventListener(
+  "click",
+  closeVideo
+);
+
+
+modal.addEventListener("click", event => {
+
+  if (event.target === modal) {
+
+    closeVideo();
+
+  }
+
+});
+
+
+document.addEventListener("keydown", event => {
+
+  if (event.key === "Escape") {
+
+    closeVideo();
+
+  }
+
+});
+
+</script>
