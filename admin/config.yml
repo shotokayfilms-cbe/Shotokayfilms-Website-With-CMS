@@ -32,16 +32,6 @@ collections:
         widget: "hidden"
         default: "projects"
 
-      - label: "Layout"
-        name: "layout"
-        widget: "hidden"
-        default: "project.njk"
-
-      - label: "Permalink"
-        name: "permalink"
-        widget: "hidden"
-        default: "/portfolio/{{slug}}/"
-
       - label: "Title"
         name: "title"
         widget: "string"
