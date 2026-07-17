@@ -1,14 +1,22 @@
 ---
 layout: base.njk
-title: Portfolio — Shot Okay Films
+title: Portfolio — Film & Photography Work | Shot Okay Films
 permalink: /portfolio/
 ---
 
 <div class="page-header wrap">
   <span class="eyebrow mono">SELECTED WORK</span>
-  <h1>A few frames from the reel</h1>
-  <p>Grouped by the six kinds of shoots we do. Add new projects anytime through the CMS — they'll show up here automatically.</p>
+
+  <h1>
+    Stories we've made <span class="accent">Shot Okay.</span>
+  </h1>
+
+  <p>
+    Explore selected films, photography, campaigns, and visual stories created
+    for brands, people, products, spaces, and original ideas.
+  </p>
 </div>
+
 
 <div class="wrap">
 
@@ -29,21 +37,24 @@ permalink: /portfolio/
           {% if project.data.category == s.name %}
 
             <div
-              class="pf-card video-project"
+              class="pf-card{% if project.data.video %} video-project{% endif %}"
               {% if project.data.video %}
-              data-video="{{ project.data.video }}"
+                data-video="{{ project.data.video }}"
+                role="button"
+                tabindex="0"
+                aria-label="Play {{ project.data.title }}"
               {% endif %}
             >
 
               <div
                 class="pf-screen"
                 {% if project.data.thumbnail %}
-                style="
-                  background-image: url('{{ project.data.thumbnail }}');
-                  background-size: cover;
-                  background-position: center;
-                  background-repeat: no-repeat;
-                "
+                  style="
+                    background-image: url('{{ project.data.thumbnail }}');
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                  "
                 {% endif %}
               >
 
@@ -55,6 +66,7 @@ permalink: /portfolio/
 
               </div>
 
+
               <div class="pf-meta">
 
                 <span class="pf-name">
@@ -62,11 +74,13 @@ permalink: /portfolio/
                 </span>
 
                 <span class="pf-tag mono">
+
                   {% if project.data.date %}
                     {{ project.data.date }}
                   {% else %}
                     {{ project.data.category }}
                   {% endif %}
+
                 </span>
 
               </div>
@@ -86,13 +100,20 @@ permalink: /portfolio/
 </div>
 
 
-<!-- VIDEO POPUP -->
+<!-- ========================================================
+     VIDEO POPUP
+========================================================= -->
 
-<div class="video-modal" id="videoModal">
+<div
+  class="video-modal"
+  id="videoModal"
+  aria-hidden="true"
+>
 
   <button
     class="video-modal-close"
     id="videoModalClose"
+    type="button"
     aria-label="Close video"
   >
     ×
@@ -103,6 +124,7 @@ permalink: /portfolio/
     <iframe
       id="videoPlayer"
       src=""
+      title="Shot Okay Films project video"
       allow="autoplay; fullscreen; picture-in-picture"
       allowfullscreen
     ></iframe>
@@ -112,21 +134,34 @@ permalink: /portfolio/
 </div>
 
 
+<!-- ========================================================
+     CTA
+========================================================= -->
+
 <section class="cta-banner">
 
   <div class="wrap">
 
-    <h2>Want to see more?</h2>
+    <h2>
+      Have an idea worth shooting?
+    </h2>
 
     <div class="cta-row">
+
+      <a
+        href="/contact/"
+        class="btn-rec"
+      >
+        Start a Project
+      </a>
 
       <a
         href="https://wa.me/{{ site.whatsapp }}"
         target="_blank"
         rel="noopener"
-        class="btn-rec"
+        class="tel-link"
       >
-        Ask us on WhatsApp
+        or WhatsApp us directly →
       </a>
 
     </div>
@@ -136,23 +171,38 @@ permalink: /portfolio/
 </section>
 
 
+<!-- ========================================================
+     VIDEO PLAYER
+========================================================= -->
+
 <script>
 
-const modal = document.getElementById("videoModal");
-const player = document.getElementById("videoPlayer");
-const closeButton = document.getElementById("videoModalClose");
+document.addEventListener("DOMContentLoaded", () => {
 
-document.querySelectorAll(".video-project").forEach(card => {
+  const modal = document.getElementById("videoModal");
+  const player = document.getElementById("videoPlayer");
+  const closeButton = document.getElementById("videoModalClose");
+  const videoProjects = document.querySelectorAll(".video-project");
 
-  card.addEventListener("click", () => {
 
-    const videoUrl = card.dataset.video;
+  /*
+  ============================================================
+  CREATE VIDEO EMBED URL
+  ============================================================
+  */
 
-    if (!videoUrl) return;
+  function getEmbedUrl(videoUrl) {
 
-    let embedUrl = "";
+    if (!videoUrl) {
+      return "";
+    }
 
-    /* YOUTUBE */
+
+    /*
+    -------------------------
+    YOUTUBE
+    -------------------------
+    */
 
     if (
       videoUrl.includes("youtube.com") ||
@@ -161,110 +211,259 @@ document.querySelectorAll(".video-project").forEach(card => {
 
       let videoId = "";
 
-      if (videoUrl.includes("youtu.be")) {
 
-        videoId = videoUrl
-          .split("youtu.be/")[1]
-          .split("?")[0];
+      try {
 
-      } else {
+        const url = new URL(videoUrl);
 
-        try {
 
-          const url = new URL(videoUrl);
+        /*
+        Short YouTube URL
+        */
+
+        if (url.hostname.includes("youtu.be")) {
+
+          videoId = url.pathname
+            .split("/")
+            .filter(Boolean)[0];
+
+        }
+
+
+        /*
+        YouTube Shorts
+        */
+
+        else if (url.pathname.includes("/shorts/")) {
+
+          videoId = url.pathname
+            .split("/shorts/")[1]
+            .split("/")[0];
+
+        }
+
+
+        /*
+        Standard YouTube URL
+        */
+
+        else {
 
           videoId = url.searchParams.get("v");
-
-        } catch (error) {
-
-          console.error("Invalid YouTube URL");
 
         }
 
       }
 
+      catch (error) {
+
+        console.error(
+          "Invalid YouTube URL:",
+          videoUrl
+        );
+
+      }
+
+
       if (videoId) {
 
-        embedUrl =
+        return (
           "https://www.youtube.com/embed/" +
           videoId +
-          "?autoplay=1&rel=0";
+          "?autoplay=1&rel=0"
+        );
 
       }
 
     }
 
 
-    /* VIMEO */
+    /*
+    -------------------------
+    VIMEO
+    -------------------------
+    */
 
-    else if (videoUrl.includes("vimeo.com")) {
+    if (videoUrl.includes("vimeo.com")) {
 
-      const videoId = videoUrl
-        .split("/")
-        .filter(Boolean)
-        .pop()
-        .split("?")[0];
+      try {
 
-      embedUrl =
-        "https://player.vimeo.com/video/" +
-        videoId +
-        "?autoplay=1";
+        const url = new URL(videoUrl);
+
+        const pathParts = url.pathname
+          .split("/")
+          .filter(Boolean);
+
+
+        const videoId = pathParts.find(
+          part => /^\d+$/.test(part)
+        );
+
+
+        if (videoId) {
+
+          return (
+            "https://player.vimeo.com/video/" +
+            videoId +
+            "?autoplay=1"
+          );
+
+        }
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Invalid Vimeo URL:",
+          videoUrl
+        );
+
+      }
 
     }
 
 
-    /* OPEN PLAYER */
+    return "";
 
-    if (embedUrl) {
+  }
 
-      player.src = embedUrl;
 
-      modal.classList.add("active");
+  /*
+  ============================================================
+  OPEN VIDEO
+  ============================================================
+  */
 
-      document.body.style.overflow = "hidden";
+  function openVideo(card) {
+
+    const videoUrl = card.dataset.video;
+
+    const embedUrl = getEmbedUrl(videoUrl);
+
+
+    if (!embedUrl) {
+
+      console.error(
+        "Unable to create video embed URL:",
+        videoUrl
+      );
+
+      return;
 
     }
+
+
+    player.src = embedUrl;
+
+    modal.classList.add("active");
+
+    modal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+    document.body.style.overflow = "hidden";
+
+  }
+
+
+  /*
+  ============================================================
+  PROJECT INTERACTIONS
+  ============================================================
+  */
+
+  videoProjects.forEach(card => {
+
+    card.addEventListener(
+      "click",
+      () => {
+
+        openVideo(card);
+
+      }
+    );
+
+
+    card.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Enter" ||
+          event.key === " "
+        ) {
+
+          event.preventDefault();
+
+          openVideo(card);
+
+        }
+
+      }
+    );
 
   });
 
-});
 
+  /*
+  ============================================================
+  CLOSE VIDEO
+  ============================================================
+  */
 
-function closeVideo() {
+  function closeVideo() {
 
-  modal.classList.remove("active");
+    modal.classList.remove("active");
 
-  player.src = "";
+    modal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
 
-  document.body.style.overflow = "";
+    player.src = "";
 
-}
-
-
-closeButton.addEventListener(
-  "click",
-  closeVideo
-);
-
-
-modal.addEventListener("click", event => {
-
-  if (event.target === modal) {
-
-    closeVideo();
+    document.body.style.overflow = "";
 
   }
 
-});
+
+  closeButton.addEventListener(
+    "click",
+    closeVideo
+  );
 
 
-document.addEventListener("keydown", event => {
+  modal.addEventListener(
+    "click",
+    event => {
 
-  if (event.key === "Escape") {
+      if (event.target === modal) {
 
-    closeVideo();
+        closeVideo();
 
-  }
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Escape" &&
+        modal.classList.contains("active")
+      ) {
+
+        closeVideo();
+
+      }
+
+    }
+  );
 
 });
 
