@@ -1,5 +1,5 @@
 ---
-title: Neeralaigal
+title: Neeralaigal - music video
 category: Fashion & Lifestyle
 thumbnail: /assets/uploads/artboard-1.jpg
 video: https://youtu.be/kg_GED_Z6nM?si=A7OZgSUDUh6SpX9b
