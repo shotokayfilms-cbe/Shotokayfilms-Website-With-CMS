@@ -3,56 +3,74 @@
     {
       "id": "commercial",
       "cam": "CAM 01",
-      "name": "Commercial Ads",
-      "headline": "Ads that actually stop the scroll",
-      "description": "Commercial shoots built for feeds, not just decks — made to hold attention in the first two seconds.",
-      "longDescription": "Scripted and shot for the way people actually watch ads today: fast cuts, clear hooks, made for feed and reel placements. From concept to final edit, tailored to stop the scroll in the first two seconds.",
+      "name": "Commercials & Brand Films",
+      "headline": "Films built to make brands impossible to ignore.",
+      "description": "Concept-driven commercials and brand films crafted to capture attention, communicate clearly, and leave a lasting impression.",
+      "longDescription": "From digital commercials and campaign films to cinematic brand stories, we handle the visual journey from concept to final delivery. Every film is shaped around the brand, audience, and platform — combining strong ideas, purposeful cinematography, and polished post-production to create work that looks distinctive and communicates effectively.",
       "icon": "commercial"
     },
     {
-      "id": "product",
+      "id": "social",
       "cam": "CAM 02",
-      "name": "Product Photography",
-      "headline": "Make your product look like #1",
-      "description": "Studio-grade product shoots that make people stop scrolling and tap buy.",
-      "longDescription": "Studio-lit product shoots for e-commerce, catalogues, and social — clean cutouts, lifestyle context shots, and detail close-ups that make a product feel worth buying.",
+      "name": "Social Media Content",
+      "headline": "Content made for the way people scroll today.",
+      "description": "Creative short-form videos and reels designed to keep brands active, relevant, and visually consistent across social platforms.",
+      "longDescription": "From one-off creative reels to ongoing monthly content, we create platform-first videos built specifically for social media. The focus is on strong hooks, engaging visuals, and ideas that communicate quickly without losing production quality. Whether educational, promotional, entertaining, or trend-driven, each piece is developed around the brand's identity and audience.",
+      "icon": "social"
+    },
+    {
+      "id": "product",
+      "cam": "CAM 03",
+      "name": "Product Photo & Video",
+      "headline": "Make your product impossible to scroll past.",
+      "description": "High-quality product photography and films crafted to showcase what makes your product look, feel, and perform its best.",
+      "longDescription": "From clean e-commerce images to styled campaign photography and cinematic product films, we create visuals tailored to how and where your product needs to be seen. Whether it's for a website, marketplace, social campaign, or product launch, every frame is built around the product's identity and designed to present it with clarity, character, and visual impact.",
       "icon": "product"
     },
     {
       "id": "architecture",
-      "cam": "CAM 03",
-      "name": "Architecture & Interior",
-      "headline": "Spaces shot to sell themselves",
-      "description": "Architecture and interior media that shows a space the way it feels to stand in it.",
-      "longDescription": "Wide, considered frames that capture how a space feels to walk through, not just what it looks like from the doorway. Built for real estate listings, interior portfolios, and hospitality brands.",
+      "cam": "CAM 04",
+      "name": "Architecture & Interiors",
+      "headline": "Spaces captured the way they're meant to be experienced.",
+      "description": "Thoughtfully crafted photography and films that showcase the design, atmosphere, details, and character of architectural spaces.",
+      "longDescription": "We create visual stories for architects, interior designers, hospitality brands, and businesses that want their spaces presented with intention. From carefully composed photographs to cinematic walkthrough films, we focus on light, form, materials, scale, and movement to capture not just how a space looks, but how it feels to experience it.",
       "icon": "architecture"
     },
     {
       "id": "fashion",
-      "cam": "CAM 04",
+      "cam": "CAM 05",
       "name": "Fashion & Lifestyle",
-      "headline": "Fashion shoots with an edge",
-      "description": "Lifestyle and fashion content with a look, not just a look-book.",
-      "longDescription": "Editorial-style shoots for apparel brands, boutiques, and personal labels — a look with attitude, not just a catalogue shot.",
+      "headline": "Visuals with style, character, and attitude.",
+      "description": "Fashion photography and films that bring together people, products, movement, and visual storytelling to build a distinctive brand image.",
+      "longDescription": "From campaign shoots and lookbooks to fashion films and lifestyle content, we create visuals that go beyond simply showcasing what someone is wearing. Every production is shaped around the brand's identity, combining styling, location, lighting, composition, and movement to create imagery with a clear visual language.",
       "icon": "fashion"
     },
     {
       "id": "branding",
-      "cam": "CAM 05",
+      "cam": "CAM 06",
       "name": "Personal Branding",
-      "headline": "Look like the expert you are",
-      "description": "Personal branding shoots for founders and professionals who need to be taken seriously online.",
-      "longDescription": "Portraits and short-form video built for founders, consultants, and creators who need to look credible across LinkedIn, decks, and press.",
+      "headline": "Show up like the professional you want to be known as.",
+      "description": "Professional photography and video content designed to build a strong, credible, and consistent personal presence.",
+      "longDescription": "We create personal branding visuals for founders, entrepreneurs, professionals, artists, and creators who want to communicate who they are and what they do. From professional portraits to cinematic profile films and social content, every shoot is shaped around the individual's personality, profession, and audience — creating content that feels authentic while presenting them at their best.",
       "icon": "branding"
     },
     {
       "id": "realestate",
-      "cam": "CAM 06",
+      "cam": "CAM 07",
       "name": "Real Estate Media",
-      "headline": "Listings that get booked faster",
-      "description": "Real estate photo and video that gets a listing noticed before the open house.",
-      "longDescription": "Photo and video packages for listings — walkthroughs and exteriors shot to get a property noticed before the open house.",
+      "headline": "Make the property worth seeing before the first visit.",
+      "description": "Professional property photography and films designed to showcase spaces clearly, attract attention, and strengthen real estate marketing.",
+      "longDescription": "We create high-quality visual content for developers, builders, real estate agencies, and property owners. From professional photography and cinematic walkthroughs to drone visuals and promotional films, our content is designed to communicate the property's scale, features, location, and overall experience — helping listings and developments stand out across websites, advertisements, and social platforms.",
       "icon": "realestate"
+    },
+    {
+      "id": "films",
+      "cam": "CAM 08",
+      "name": "Films & Original Content",
+      "headline": "Stories made to live beyond the scroll.",
+      "description": "End-to-end visual production for music videos, short films, pilots, and original narrative projects.",
+      "longDescription": "We collaborate with artists, filmmakers, creators, and production teams to bring narrative ideas to the screen. From music videos and short films to pilot episodes and original concepts, we approach each project with a strong focus on storytelling, cinematography, and visual identity. Depending on the project, we can support individual production departments or take the project through development, production, and post-production.",
+      "icon": "films"
     }
   ]
 }
