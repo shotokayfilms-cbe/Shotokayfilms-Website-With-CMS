@@ -82,7 +82,7 @@ collections:
               - { label: "Headline", name: "headline", widget: "string" }
               - { label: "Short Description", name: "description", widget: "text" }
               - { label: "Long Description (Services page)", name: "longDescription", widget: "text" }
-                            - label: "Icon"
+              - label: "Icon"
                 name: "icon"
                 widget: "select"
                 options:
@@ -94,6 +94,7 @@ collections:
                   - "branding"
                   - "realestate"
                   - "films"
+
   - name: "pages"
     label: "Pages"
     editor:
