@@ -1,0 +1,12 @@
+{
+  "founder_name": "Sharun E M",
+  "bio1": "Sharun E M is the Founder and Creative Director of Shot Okay Films — a creative media production studio built on a simple belief: every frame should tell a story.",
+  "bio2": "What started as a personal passion for visual storytelling has grown into a full production practice covering commercial ads, product photography, architecture and interior media, fashion and lifestyle content, personal branding, and real estate media.",
+  "bio3": "Every shoot is led with the same instinct — composition and light should do the selling, not just document it. Less about pointing a camera at something, more about deciding what story that frame should tell before the shutter ever clicks.",
+  "process": [
+    { "step": "STEP 01", "title": "Concept", "description": "We start with what the shoot needs to say, not just what it needs to show." },
+    { "step": "STEP 02", "title": "Shoot", "description": "Lighting, direction, and composition handled on set — one team, start to finish." },
+    { "step": "STEP 03", "title": "Edit", "description": "Cut and color-graded for the platform it's actually going to live on." },
+    { "step": "STEP 04", "title": "Delivery", "description": "Final files handed off ready to post, print, or publish." }
+  ]
+}

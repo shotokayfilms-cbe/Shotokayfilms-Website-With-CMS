@@ -1,0 +1,40 @@
+---
+layout: base.njk
+title: Services — Shot Okay Films
+permalink: /services/
+---
+{% from "icons.njk" import serviceIcon %}
+
+<div class="page-header wrap">
+  <span class="eyebrow mono">WHAT WE SHOOT</span>
+  <h1>Every story needs the right shot</h1>
+  <p>Six kinds of visual stories, one studio. Pick a vertical below for the full breakdown, or just tell us what you need.</p>
+</div>
+
+<div class="wrap">
+  {% for s in services.services %}
+  <div class="service-detail" id="{{ s.id }}">
+    <div class="sd-inner">
+      <div>
+        <div class="sd-icon">{{ serviceIcon(s.icon) }}</div>
+        <span class="sd-num mono">{{ s.cam }}</span>
+      </div>
+      <div class="sd-content">
+        <h2>{{ s.name }}</h2>
+        <p class="sd-headline">{{ s.headline }}</p>
+        <p class="sd-desc">{{ s.longDescription }}</p>
+        <a href="/contact/?service={{ s.name | urlencode }}" class="btn-outline">Get a quote for this</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<section class="cta-banner">
+  <div class="wrap">
+    <h2>Not sure which fits?</h2>
+    <div class="cta-row">
+      <a href="/contact/" class="btn-rec">Tell us what you need</a>
+    </div>
+  </div>
+</section>

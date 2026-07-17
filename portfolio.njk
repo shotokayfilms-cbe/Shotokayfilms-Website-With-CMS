@@ -1,0 +1,49 @@
+---
+layout: base.njk
+title: Portfolio — Shot Okay Films
+permalink: /portfolio/
+---
+
+<div class="page-header wrap">
+  <span class="eyebrow mono">SELECTED WORK</span>
+  <h1>A few frames from the reel</h1>
+  <p>Grouped by the six kinds of shoots we do. Add new projects anytime through the CMS — they'll show up here automatically.</p>
+</div>
+
+<div class="wrap">
+  {% for s in services.services %}
+    {% set catProjects = collections.projects | selectattr("data.category", "equalto", s.name) | list %}
+    <div class="portfolio-category">
+      <h2>{{ s.name }}</h2>
+      <span class="cat-count mono">{{ s.cam }} — {{ catProjects.length }} PROJECT{% if catProjects.length != 1 %}S{% endif %}</span>
+      <div class="portfolio-grid">
+        {% if catProjects.length %}
+          {% for project in catProjects %}
+          <div class="pf-card">
+            <div class="pf-screen">
+              {% if project.data.thumbnail %}<span class="pf-label mono">▶ PLAY</span>{% else %}<span class="pf-label mono">REEL</span>{% endif %}
+            </div>
+            <div class="pf-meta">
+              <span class="pf-name">{{ project.data.title }}</span>
+              <span class="pf-tag mono">{{ project.data.date | default("") }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <div class="pf-card"><div class="pf-screen"><span class="pf-label mono">REEL</span></div><div class="pf-meta"><span class="pf-name">Project 01</span><span class="pf-tag mono">Coming soon</span></div></div>
+          <div class="pf-card"><div class="pf-screen"><span class="pf-label mono">REEL</span></div><div class="pf-meta"><span class="pf-name">Project 02</span><span class="pf-tag mono">Coming soon</span></div></div>
+          <div class="pf-card"><div class="pf-screen"><span class="pf-label mono">REEL</span></div><div class="pf-meta"><span class="pf-name">Project 03</span><span class="pf-tag mono">Coming soon</span></div></div>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<section class="cta-banner">
+  <div class="wrap">
+    <h2>Want to see more?</h2>
+    <div class="cta-row">
+      <a href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" class="btn-rec">Ask us on WhatsApp</a>
+    </div>
+  </div>
+</section>

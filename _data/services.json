@@ -1,0 +1,58 @@
+{
+  "services": [
+    {
+      "id": "commercial",
+      "cam": "CAM 01",
+      "name": "Commercial Ads",
+      "headline": "Ads that actually stop the scroll",
+      "description": "Commercial shoots built for feeds, not just decks — made to hold attention in the first two seconds.",
+      "longDescription": "Scripted and shot for the way people actually watch ads today: fast cuts, clear hooks, made for feed and reel placements. From concept to final edit, tailored to stop the scroll in the first two seconds.",
+      "icon": "commercial"
+    },
+    {
+      "id": "product",
+      "cam": "CAM 02",
+      "name": "Product Photography",
+      "headline": "Make your product look like #1",
+      "description": "Studio-grade product shoots that make people stop scrolling and tap buy.",
+      "longDescription": "Studio-lit product shoots for e-commerce, catalogues, and social — clean cutouts, lifestyle context shots, and detail close-ups that make a product feel worth buying.",
+      "icon": "product"
+    },
+    {
+      "id": "architecture",
+      "cam": "CAM 03",
+      "name": "Architecture & Interior",
+      "headline": "Spaces shot to sell themselves",
+      "description": "Architecture and interior media that shows a space the way it feels to stand in it.",
+      "longDescription": "Wide, considered frames that capture how a space feels to walk through, not just what it looks like from the doorway. Built for real estate listings, interior portfolios, and hospitality brands.",
+      "icon": "architecture"
+    },
+    {
+      "id": "fashion",
+      "cam": "CAM 04",
+      "name": "Fashion & Lifestyle",
+      "headline": "Fashion shoots with an edge",
+      "description": "Lifestyle and fashion content with a look, not just a look-book.",
+      "longDescription": "Editorial-style shoots for apparel brands, boutiques, and personal labels — a look with attitude, not just a catalogue shot.",
+      "icon": "fashion"
+    },
+    {
+      "id": "branding",
+      "cam": "CAM 05",
+      "name": "Personal Branding",
+      "headline": "Look like the expert you are",
+      "description": "Personal branding shoots for founders and professionals who need to be taken seriously online.",
+      "longDescription": "Portraits and short-form video built for founders, consultants, and creators who need to look credible across LinkedIn, decks, and press.",
+      "icon": "branding"
+    },
+    {
+      "id": "realestate",
+      "cam": "CAM 06",
+      "name": "Real Estate Media",
+      "headline": "Listings that get booked faster",
+      "description": "Real estate photo and video that gets a listing noticed before the open house.",
+      "longDescription": "Photo and video packages for listings — walkthroughs and exteriors shot to get a property noticed before the open house.",
+      "icon": "realestate"
+    }
+  ]
+}

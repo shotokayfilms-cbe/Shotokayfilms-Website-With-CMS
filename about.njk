@@ -1,0 +1,48 @@
+---
+layout: base.njk
+title: About — Shot Okay Films
+permalink: /about/
+---
+
+<div class="page-header wrap">
+  <span class="eyebrow mono">ABOUT THE STUDIO</span>
+  <h1>The person behind the camera</h1>
+</div>
+
+<section class="about-section">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-frame">
+        <div class="mscreen-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+        </div>
+      </div>
+      <div class="about-copy">
+        <h2>{{ about.founder_name }}</h2>
+        <p>{{ about.bio1 }}</p>
+        <p>{{ about.bio2 }}</p>
+        <p>{{ about.bio3 }}</p>
+        <a href="/contact/" class="btn-outline">Get in touch</a>
+      </div>
+    </div>
+
+    <div class="process-strip">
+      {% for step in about.process %}
+      <div class="process-step">
+        <span class="mono">{{ step.step }}</span>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner">
+  <div class="wrap">
+    <h2>Let's shoot something together</h2>
+    <div class="cta-row">
+      <a href="/contact/" class="btn-rec">Get a Free Quote</a>
+    </div>
+  </div>
+</section>
