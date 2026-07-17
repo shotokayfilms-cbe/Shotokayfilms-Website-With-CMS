@@ -5,9 +5,10 @@
 # ============================================================
 backend:
   name: github
-  repo: YOUR_GITHUB_USERNAME/YOUR_REPO_NAME
+  repo: shotokayfilms-cbe/Shotokayfilms-Website-With-CMS
   branch: main
-  base_url: https://YOUR-OAUTH-PROXY.vercel.app
+  base_url: https://shotokayfilms-cms-oauth.vercel.app
+  auth_endpoint: /api/auth
 
 media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
