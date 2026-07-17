@@ -1,4 +1,5 @@
 {
   "tags": "portfolioProjects",
-  "permalink": false
+  "layout": "project.njk",
+  "permalink": "/portfolio/{{ page.fileSlug }}/"
 }
