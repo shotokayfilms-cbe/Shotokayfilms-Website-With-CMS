@@ -82,11 +82,18 @@ collections:
               - { label: "Headline", name: "headline", widget: "string" }
               - { label: "Short Description", name: "description", widget: "text" }
               - { label: "Long Description (Services page)", name: "longDescription", widget: "text" }
-              - label: "Icon"
+                            - label: "Icon"
                 name: "icon"
                 widget: "select"
-                options: ["commercial", "product", "architecture", "fashion", "branding", "realestate"]
-
+                options:
+                  - "commercial"
+                  - "social"
+                  - "product"
+                  - "architecture"
+                  - "fashion"
+                  - "branding"
+                  - "realestate"
+                  - "films"
   - name: "pages"
     label: "Pages"
     editor:
