@@ -12,7 +12,7 @@ permalink: /portfolio/
 
 <div class="wrap">
   {% for s in services.services %}
-    {% set catProjects = (collections.projects or []) | selectattr("data.category", "equalto", s.name) | list %}
+    {% set catProjects = (collections.portfolioProjects or []) | selectattr("data.category", "equalto", s.name) | list %}
     <div class="portfolio-category">
       <h2>{{ s.name }}</h2>
       <span class="cat-count mono">{{ s.cam }} — {{ catProjects.length }} PROJECT{% if catProjects.length != 1 %}S{% endif %}</span>
