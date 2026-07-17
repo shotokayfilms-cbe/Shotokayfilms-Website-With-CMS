@@ -7,6 +7,7 @@ permalink: /
 
 <div class="hero-outer">
   <div class="pgm-monitor">
+
     <div class="pgm-top">
       <span class="tally-dot on"></span>
       <span class="mono">PGM · LIVE</span>
@@ -14,9 +15,11 @@ permalink: /
     </div>
 
     <div class="pgm-screen">
+
       <h1>
         Every idea starts with a vision.<br>
-        We work until the frame says, <span class="accent">“Shot Okay.”</span>
+        We work until the frame says,
+        <span class="accent">“Shot Okay.”</span>
       </h1>
 
       <p class="subhead">
@@ -24,47 +27,99 @@ permalink: /
       </p>
 
       <div class="cta-row">
-        <a href="/contact/" class="btn-rec">Get a Free Quote</a>
-        <a href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" class="tel-link">
+
+        <a href="/contact/" class="btn-rec">
+          Get a Free Quote
+        </a>
+
+        <a
+          href="https://wa.me/{{ site.whatsapp }}"
+          target="_blank"
+          rel="noopener"
+          class="tel-link"
+        >
           or WhatsApp us directly →
         </a>
+
       </div>
+
     </div>
 
     <div class="waveform" id="waveform"></div>
+
   </div>
 </div>
 
+
+<!-- ========================================================
+     SERVICES
+========================================================= -->
+
 <section class="wall-section">
+
   <div class="wrap">
-    <span class="eyebrow mono">VIDEO VILLAGE — MONITOR WALL</span>
+
+    <span class="eyebrow mono">
+      VIDEO VILLAGE — MONITOR WALL
+    </span>
+
     <h2>What we shoot</h2>
 
+
     <div class="wall-grid">
+
       {% for s in services.services %}
-      <div
-        class="monitor{% if loop.first %} active{% endif %}"
-        data-id="{{ s.id }}"
-        data-headline="{{ s.headline }}"
-        data-desc="{{ s.description }}"
-      >
-        <div class="mtop">
-          <span class="tally-dot{% if loop.first %} on{% endif %}"></span>
-          <span class="mono">{{ s.cam }}</span>
-          <span class="tc mono">00:00:00:00</span>
+
+        <div
+          class="monitor{% if loop.first %} active{% endif %}"
+          data-id="{{ s.id }}"
+          data-headline="{{ s.headline }}"
+          data-desc="{{ s.description }}"
+        >
+
+          <div class="mtop">
+
+            <span
+              class="tally-dot{% if loop.first %} on{% endif %}"
+            ></span>
+
+            <span class="mono">
+              {{ s.cam }}
+            </span>
+
+            <span class="tc mono">
+              00:00:00:00
+            </span>
+
+          </div>
+
+
+          <div class="mscreen">
+
+            {{ serviceIcon(s.icon) }}
+
+            <span class="sname">
+              {{ s.name }}
+            </span>
+
+          </div>
+
         </div>
 
-        <div class="mscreen">
-          {{ serviceIcon(s.icon) }}
-          <span class="sname">{{ s.name }}</span>
-        </div>
-      </div>
       {% endfor %}
+
     </div>
 
+
     <div class="wall-panel">
-      <h3>{{ services.services[0].headline }}</h3>
-      <p>{{ services.services[0].description }}</p>
+
+      <h3>
+        {{ services.services[0].headline }}
+      </h3>
+
+      <p>
+        {{ services.services[0].description }}
+      </p>
 
       <a
         href="/contact/?service={{ services.services[0].name | urlencode }}"
@@ -72,113 +127,583 @@ permalink: /
       >
         Quote this shoot
       </a>
+
     </div>
 
-    <a href="/services/" class="view-all-link">→ View all services</a>
+
+    <a href="/services/" class="view-all-link">
+      → View all services
+    </a>
+
   </div>
+
 </section>
+
+
+
+<!-- ========================================================
+     FEATURED PROJECTS
+========================================================= -->
 
 <section class="wall-section">
+
   <div class="wrap">
-    <span class="eyebrow mono">SELECTED WORK</span>
+
+    <span class="eyebrow mono">
+      SELECTED WORK
+    </span>
+
     <h2>Featured projects</h2>
 
+
     <div class="portfolio-grid">
-      {% for project in collections.projects | reverse %}
+
+      {% for project in collections.portfolioProjects %}
+
         {% if project.data.featured %}
 
-        <div class="pf-card">
-          <div class="pf-screen">
-            <span class="pf-label mono">REEL</span>
-          </div>
+          <div
+            class="pf-card{% if project.data.video %} video-project{% endif %}"
+            {% if project.data.video %}
+              data-video="{{ project.data.video }}"
+              role="button"
+              tabindex="0"
+              aria-label="Play {{ project.data.title }}"
+            {% endif %}
+          >
 
-          <div class="pf-meta">
-            <span class="pf-name">{{ project.data.title }}</span>
-            <span class="pf-tag mono">{{ project.data.category }}</span>
+
+            <div
+              class="pf-screen"
+              {% if project.data.thumbnail %}
+                style="
+                  background-image: url('{{ project.data.thumbnail }}');
+                  background-size: cover;
+                  background-position: center;
+                  background-repeat: no-repeat;
+                "
+              {% endif %}
+            >
+
+              {% if project.data.video %}
+
+                <span class="pf-label mono">
+                  ▶ PLAY
+                </span>
+
+              {% else %}
+
+                <span class="pf-label mono">
+                  REEL
+                </span>
+
+              {% endif %}
+
+            </div>
+
+
+            <div class="pf-meta">
+
+              <span class="pf-name">
+                {{ project.data.title }}
+              </span>
+
+              <span class="pf-tag mono">
+
+                {% if project.data.date %}
+
+                  {{ project.data.date }}
+
+                {% else %}
+
+                  {{ project.data.category }}
+
+                {% endif %}
+
+              </span>
+
+            </div>
+
           </div>
-        </div>
 
         {% endif %}
-      {% else %}
-
-        <div class="pf-card">
-          <div class="pf-screen">
-            <span class="pf-label mono">REEL 01</span>
-          </div>
-          <div class="pf-meta">
-            <span class="pf-name">Commercials & Brand Films</span>
-            <span class="pf-tag mono">Coming soon</span>
-          </div>
-        </div>
-
-        <div class="pf-card">
-          <div class="pf-screen">
-            <span class="pf-label mono">REEL 02</span>
-          </div>
-          <div class="pf-meta">
-            <span class="pf-name">Product Photo & Video</span>
-            <span class="pf-tag mono">Coming soon</span>
-          </div>
-        </div>
-
-        <div class="pf-card">
-          <div class="pf-screen">
-            <span class="pf-label mono">REEL 03</span>
-          </div>
-          <div class="pf-meta">
-            <span class="pf-name">Films & Original Content</span>
-            <span class="pf-tag mono">Coming soon</span>
-          </div>
-        </div>
 
       {% endfor %}
+
     </div>
 
-    <a href="/portfolio/" class="view-all-link">→ View full portfolio</a>
+
+    <a href="/portfolio/" class="view-all-link">
+      → View full portfolio
+    </a>
+
   </div>
+
 </section>
+
+
+
+<!-- ========================================================
+     VIDEO POPUP
+========================================================= -->
+
+<div
+  class="video-modal"
+  id="videoModal"
+  aria-hidden="true"
+>
+
+  <button
+    class="video-modal-close"
+    id="videoModalClose"
+    type="button"
+    aria-label="Close video"
+  >
+    ×
+  </button>
+
+
+  <div class="video-modal-content">
+
+    <iframe
+      id="videoPlayer"
+      src=""
+      title="Shot Okay Films project video"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+
+  </div>
+
+</div>
+
+
+
+<!-- ========================================================
+     CREW NOTES
+========================================================= -->
 
 <section class="notes-section">
+
   <div class="wrap">
+
     <div class="notes-grid">
 
-      <div class="note">
-        <span class="mono">CREW NOTE 01</span>
-        <h3>One team, every frame</h3>
-        <p>
-          From commercials and product campaigns to spaces and original films —
-          one creative team, one consistent visual language.
-        </p>
-      </div>
 
       <div class="note">
-        <span class="mono">CREW NOTE 02</span>
-        <h3>Shot for the platform</h3>
+
+        <span class="mono">
+          CREW NOTE 01
+        </span>
+
+        <h3>
+          One team, every frame
+        </h3>
+
         <p>
-          Every frame is composed for where people actually watch it —
-          from the big screen to the smallest scroll.
+          From commercials and product campaigns to spaces and original films — one creative team, one consistent visual language.
         </p>
+
       </div>
 
+
       <div class="note">
-        <span class="mono">CREW NOTE 03</span>
-        <h3>Direction, not just a camera</h3>
+
+        <span class="mono">
+          CREW NOTE 02
+        </span>
+
+        <h3>
+          Shot for the platform
+        </h3>
+
         <p>
-          Concept, lighting, movement, and story come built in —
-          because a good-looking frame should still have something to say.
+          Every frame is composed for where people actually watch it — from the big screen to the smallest scroll.
         </p>
+
       </div>
+
+
+      <div class="note">
+
+        <span class="mono">
+          CREW NOTE 03
+        </span>
+
+        <h3>
+          Direction, not just a camera
+        </h3>
+
+        <p>
+          Concept, lighting, movement, and story come built in — because a good-looking frame should still have something to say.
+        </p>
+
+      </div>
+
 
     </div>
+
   </div>
+
 </section>
+
+
+
+<!-- ========================================================
+     FINAL CTA
+========================================================= -->
 
 <section class="cta-banner">
+
   <div class="wrap">
-    <h2>Have an idea worth shooting?</h2>
+
+    <h2>
+      Have an idea worth shooting?
+    </h2>
+
 
     <div class="cta-row">
-      <a href="/contact/" class="btn-rec">Let's make it Shot Okay</a>
+
+      <a
+        href="/contact/"
+        class="btn-rec"
+      >
+        Let's make it Shot Okay
+      </a>
+
     </div>
+
   </div>
+
 </section>
+
+
+
+<!-- ========================================================
+     FEATURED PROJECT VIDEO PLAYER
+========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const modal = document.getElementById("videoModal");
+  const player = document.getElementById("videoPlayer");
+  const closeButton = document.getElementById("videoModalClose");
+  const videoProjects = document.querySelectorAll(".video-project");
+
+
+  /*
+  ============================================================
+  CREATE EMBED URL
+  ============================================================
+  */
+
+  function getEmbedUrl(videoUrl) {
+
+    if (!videoUrl) {
+      return "";
+    }
+
+
+    /*
+    -------------------------
+    YOUTUBE
+    -------------------------
+    */
+
+    if (
+      videoUrl.includes("youtube.com") ||
+      videoUrl.includes("youtu.be")
+    ) {
+
+      let videoId = "";
+
+
+      try {
+
+        const url = new URL(videoUrl);
+
+
+        /*
+        YouTube short link
+        youtu.be/VIDEO_ID
+        */
+
+        if (url.hostname.includes("youtu.be")) {
+
+          videoId = url.pathname
+            .split("/")
+            .filter(Boolean)[0];
+
+        }
+
+
+        /*
+        YouTube Shorts
+        youtube.com/shorts/VIDEO_ID
+        */
+
+        else if (url.pathname.includes("/shorts/")) {
+
+          videoId = url.pathname
+            .split("/shorts/")[1]
+            .split("/")[0];
+
+        }
+
+
+        /*
+        Standard YouTube link
+        youtube.com/watch?v=VIDEO_ID
+        */
+
+        else {
+
+          videoId = url.searchParams.get("v");
+
+        }
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Invalid YouTube URL:",
+          videoUrl
+        );
+
+      }
+
+
+      if (videoId) {
+
+        return (
+          "https://www.youtube.com/embed/" +
+          videoId +
+          "?autoplay=1&rel=0"
+        );
+
+      }
+
+    }
+
+
+
+    /*
+    -------------------------
+    VIMEO
+    -------------------------
+    */
+
+    if (videoUrl.includes("vimeo.com")) {
+
+      try {
+
+        const url = new URL(videoUrl);
+
+        const pathParts = url.pathname
+          .split("/")
+          .filter(Boolean);
+
+
+        const videoId = pathParts.find(
+          part => /^\d+$/.test(part)
+        );
+
+
+        if (videoId) {
+
+          return (
+            "https://player.vimeo.com/video/" +
+            videoId +
+            "?autoplay=1"
+          );
+
+        }
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Invalid Vimeo URL:",
+          videoUrl
+        );
+
+      }
+
+    }
+
+
+    return "";
+
+  }
+
+
+
+  /*
+  ============================================================
+  OPEN VIDEO
+  ============================================================
+  */
+
+  function openVideo(card) {
+
+    const videoUrl = card.dataset.video;
+
+    const embedUrl = getEmbedUrl(videoUrl);
+
+
+    if (!embedUrl) {
+
+      console.error(
+        "Unable to create video embed URL:",
+        videoUrl
+      );
+
+      return;
+
+    }
+
+
+    player.src = embedUrl;
+
+    modal.classList.add("active");
+
+    modal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+    document.body.style.overflow = "hidden";
+
+  }
+
+
+
+  /*
+  ============================================================
+  PROJECT CARD CLICK
+  ============================================================
+  */
+
+  videoProjects.forEach(card => {
+
+    card.addEventListener(
+      "click",
+      () => {
+
+        openVideo(card);
+
+      }
+    );
+
+
+    /*
+    Keyboard support
+    */
+
+    card.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Enter" ||
+          event.key === " "
+        ) {
+
+          event.preventDefault();
+
+          openVideo(card);
+
+        }
+
+      }
+    );
+
+  });
+
+
+
+  /*
+  ============================================================
+  CLOSE VIDEO
+  ============================================================
+  */
+
+  function closeVideo() {
+
+    modal.classList.remove("active");
+
+    modal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+
+    /*
+    Clear iframe to stop playback
+    */
+
+    player.src = "";
+
+    document.body.style.overflow = "";
+
+  }
+
+
+
+  /*
+  Close button
+  */
+
+  closeButton.addEventListener(
+    "click",
+    closeVideo
+  );
+
+
+
+  /*
+  Click outside video
+  */
+
+  modal.addEventListener(
+    "click",
+    event => {
+
+      if (event.target === modal) {
+
+        closeVideo();
+
+      }
+
+    }
+  );
+
+
+
+  /*
+  Escape key
+  */
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Escape" &&
+        modal.classList.contains("active")
+      ) {
+
+        closeVideo();
+
+      }
+
+    }
+  );
+
+});
+
+</script>
