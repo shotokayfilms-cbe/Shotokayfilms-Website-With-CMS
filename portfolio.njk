@@ -5,7 +5,10 @@ permalink: /portfolio/
 ---
 
 <div class="page-header wrap">
-  <span class="eyebrow mono">SELECTED WORK</span>
+
+  <span class="eyebrow mono">
+    SELECTED WORK
+  </span>
 
   <h1>
     Stories we've made <span class="accent">Shot Okay.</span>
@@ -15,6 +18,7 @@ permalink: /portfolio/
     Explore selected films, photography, campaigns, and visual stories created
     for brands, people, products, spaces, and original ideas.
   </p>
+
 </div>
 
 
@@ -24,11 +28,14 @@ permalink: /portfolio/
 
     <div class="portfolio-category">
 
-      <h2>{{ s.name }}</h2>
+      <h2>
+        {{ s.name }}
+      </h2>
 
       <span class="cat-count mono">
         {{ s.cam }}
       </span>
+
 
       <div class="portfolio-grid">
 
@@ -36,56 +43,164 @@ permalink: /portfolio/
 
           {% if project.data.category == s.name %}
 
-            <div
-              class="pf-card{% if project.data.video %} video-project{% endif %}"
-              {% if project.data.video %}
+
+            {# ===============================================
+               VIDEO PROJECT
+            ================================================ #}
+
+            {% if project.data.video %}
+
+              <div
+                class="pf-card video-project"
                 data-video="{{ project.data.video }}"
                 role="button"
                 tabindex="0"
                 aria-label="Play {{ project.data.title }}"
-              {% endif %}
-            >
-
-              <div
-                class="pf-screen"
-                {% if project.data.thumbnail %}
-                  style="
-                    background-image: url('{{ project.data.thumbnail }}');
-                    background-size: cover;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                  "
-                {% endif %}
               >
 
-                {% if project.data.video %}
-                  <span class="pf-label mono">▶ PLAY</span>
-                {% else %}
-                  <span class="pf-label mono">REEL</span>
-                {% endif %}
-
-              </div>
-
-
-              <div class="pf-meta">
-
-                <span class="pf-name">
-                  {{ project.data.title }}
-                </span>
-
-                <span class="pf-tag mono">
-
-                  {% if project.data.date %}
-                    {{ project.data.date }}
-                  {% else %}
-                    {{ project.data.category }}
+                <div
+                  class="pf-screen"
+                  {% if project.data.thumbnail %}
+                    style="
+                      background-image: url('{{ project.data.thumbnail }}');
+                      background-size: cover;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                    "
                   {% endif %}
+                >
 
-                </span>
+                  <span class="pf-label mono">
+                    ▶ PLAY
+                  </span>
+
+                </div>
+
+
+                <div class="pf-meta">
+
+                  <span class="pf-name">
+                    {{ project.data.title }}
+                  </span>
+
+                  <span class="pf-tag mono">
+
+                    {% if project.data.date %}
+                      {{ project.data.date }}
+                    {% else %}
+                      {{ project.data.category }}
+                    {% endif %}
+
+                  </span>
+
+                </div>
 
               </div>
 
-            </div>
+
+
+            {# ===============================================
+               PHOTOGRAPHY / GALLERY PROJECT
+            ================================================ #}
+
+            {% elif project.data.gallery %}
+
+              <a
+                href="{{ project.url }}"
+                class="pf-card gallery-project"
+                aria-label="View {{ project.data.title }}"
+              >
+
+                <div
+                  class="pf-screen"
+                  {% if project.data.thumbnail %}
+                    style="
+                      background-image: url('{{ project.data.thumbnail }}');
+                      background-size: cover;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                    "
+                  {% endif %}
+                >
+
+                  <span class="pf-label mono">
+                    VIEW PROJECT
+                  </span>
+
+                </div>
+
+
+                <div class="pf-meta">
+
+                  <span class="pf-name">
+                    {{ project.data.title }}
+                  </span>
+
+                  <span class="pf-tag mono">
+
+                    {% if project.data.date %}
+                      {{ project.data.date }}
+                    {% else %}
+                      {{ project.data.category }}
+                    {% endif %}
+
+                  </span>
+
+                </div>
+
+              </a>
+
+
+
+            {# ===============================================
+               PROJECT WITHOUT VIDEO OR GALLERY
+            ================================================ #}
+
+            {% else %}
+
+              <div class="pf-card">
+
+                <div
+                  class="pf-screen"
+                  {% if project.data.thumbnail %}
+                    style="
+                      background-image: url('{{ project.data.thumbnail }}');
+                      background-size: cover;
+                      background-position: center;
+                      background-repeat: no-repeat;
+                    "
+                  {% endif %}
+                >
+
+                  <span class="pf-label mono">
+                    PROJECT
+                  </span>
+
+                </div>
+
+
+                <div class="pf-meta">
+
+                  <span class="pf-name">
+                    {{ project.data.title }}
+                  </span>
+
+                  <span class="pf-tag mono">
+
+                    {% if project.data.date %}
+                      {{ project.data.date }}
+                    {% else %}
+                      {{ project.data.category }}
+                    {% endif %}
+
+                  </span>
+
+                </div>
+
+              </div>
+
+            {% endif %}
+
 
           {% endif %}
 
@@ -98,6 +213,7 @@ permalink: /portfolio/
   {% endfor %}
 
 </div>
+
 
 
 <!-- ========================================================
@@ -119,6 +235,7 @@ permalink: /portfolio/
     ×
   </button>
 
+
   <div class="video-modal-content">
 
     <iframe
@@ -134,6 +251,7 @@ permalink: /portfolio/
 </div>
 
 
+
 <!-- ========================================================
      CTA
 ========================================================= -->
@@ -146,6 +264,7 @@ permalink: /portfolio/
       Have an idea worth shooting?
     </h2>
 
+
     <div class="cta-row">
 
       <a
@@ -154,6 +273,7 @@ permalink: /portfolio/
       >
         Start a Project
       </a>
+
 
       <a
         href="https://wa.me/{{ site.whatsapp }}"
@@ -171,8 +291,9 @@ permalink: /portfolio/
 </section>
 
 
+
 <!-- ========================================================
-     VIDEO PLAYER
+     VIDEO PLAYER SCRIPT
 ========================================================= -->
 
 <script>
@@ -187,7 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /*
   ============================================================
-  CREATE VIDEO EMBED URL
+  CREATE EMBED URL
   ============================================================
   */
 
@@ -218,7 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /*
-        Short YouTube URL
+        YouTube short link
         */
 
         if (url.hostname.includes("youtu.be")) {
@@ -244,7 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /*
-        Standard YouTube URL
+        Standard YouTube link
         */
 
         else {
@@ -276,6 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
     }
+
 
 
     /*
@@ -329,6 +451,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
+
   /*
   ============================================================
   OPEN VIDEO
@@ -368,9 +491,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
+
   /*
   ============================================================
-  PROJECT INTERACTIONS
+  VIDEO PROJECT INTERACTIONS
   ============================================================
   */
 
@@ -407,6 +531,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
+
   /*
   ============================================================
   CLOSE VIDEO
@@ -427,6 +552,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.style.overflow = "";
 
   }
+
 
 
   closeButton.addEventListener(
