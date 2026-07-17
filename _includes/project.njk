@@ -1,0 +1,418 @@
+---
+layout: base.njk
+---
+
+<main class="project-page">
+
+  <header class="page-header wrap">
+
+    <a href="/portfolio/" class="view-all-link">
+      ← Back to portfolio
+    </a>
+
+    <span class="eyebrow mono">
+      {{ category }}
+    </span>
+
+    <h1>
+      {{ title }}
+    </h1>
+
+    {% if description %}
+      <p>
+        {{ description }}
+      </p>
+    {% endif %}
+
+    <div class="project-info">
+
+      {% if date %}
+        <span class="mono">
+          {{ date }}
+        </span>
+      {% endif %}
+
+      {% if category %}
+        <span class="mono">
+          {{ category }}
+        </span>
+      {% endif %}
+
+    </div>
+
+  </header>
+
+
+  {% if video %}
+
+    <section class="project-video wrap">
+
+      <div
+        class="project-video-player video-project"
+        data-video="{{ video }}"
+        role="button"
+        tabindex="0"
+        aria-label="Play {{ title }}"
+      >
+
+        <div
+          class="pf-screen"
+          {% if thumbnail %}
+            style="
+              background-image: url('{{ thumbnail }}');
+              background-size: cover;
+              background-position: center;
+              background-repeat: no-repeat;
+            "
+          {% endif %}
+        >
+
+          <span class="pf-label mono">
+            ▶ PLAY FILM
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  {% endif %}
+
+
+  {% if gallery %}
+
+    <section class="project-gallery wrap">
+
+      <div class="project-gallery-grid">
+
+        {% for image in gallery %}
+
+          <figure class="project-gallery-item">
+
+            <img
+              src="{{ image }}"
+              alt="{{ title }} — Project image {{ loop.index }}"
+              loading="lazy"
+            >
+
+          </figure>
+
+        {% endfor %}
+
+      </div>
+
+    </section>
+
+  {% endif %}
+
+
+  <section class="cta-banner">
+
+    <div class="wrap">
+
+      <h2>
+        Have a project in mind?
+      </h2>
+
+      <div class="cta-row">
+
+        <a
+          href="/contact/"
+          class="btn-rec"
+        >
+          Start a Project
+        </a>
+
+        <a
+          href="https://wa.me/{{ site.whatsapp }}"
+          target="_blank"
+          rel="noopener"
+          class="tel-link"
+        >
+          or WhatsApp us directly →
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+{% if video %}
+
+<div
+  class="video-modal"
+  id="videoModal"
+  aria-hidden="true"
+>
+
+  <button
+    class="video-modal-close"
+    id="videoModalClose"
+    type="button"
+    aria-label="Close video"
+  >
+    ×
+  </button>
+
+  <div class="video-modal-content">
+
+    <iframe
+      id="videoPlayer"
+      src=""
+      title="{{ title }} video"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+
+  </div>
+
+</div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const modal = document.getElementById("videoModal");
+  const player = document.getElementById("videoPlayer");
+  const closeButton = document.getElementById("videoModalClose");
+  const videoProject = document.querySelector(".video-project");
+
+
+  function getEmbedUrl(videoUrl) {
+
+    if (!videoUrl) {
+      return "";
+    }
+
+
+    /*
+    YOUTUBE
+    */
+
+    if (
+      videoUrl.includes("youtube.com") ||
+      videoUrl.includes("youtu.be")
+    ) {
+
+      try {
+
+        const url = new URL(videoUrl);
+
+        let videoId = "";
+
+
+        if (url.hostname.includes("youtu.be")) {
+
+          videoId = url.pathname
+            .split("/")
+            .filter(Boolean)[0];
+
+        }
+
+
+        else if (url.pathname.includes("/shorts/")) {
+
+          videoId = url.pathname
+            .split("/shorts/")[1]
+            .split("/")[0];
+
+        }
+
+
+        else {
+
+          videoId = url.searchParams.get("v");
+
+        }
+
+
+        if (videoId) {
+
+          return (
+            "https://www.youtube.com/embed/" +
+            videoId +
+            "?autoplay=1&rel=0"
+          );
+
+        }
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Invalid YouTube URL:",
+          videoUrl
+        );
+
+      }
+
+    }
+
+
+    /*
+    VIMEO
+    */
+
+    if (videoUrl.includes("vimeo.com")) {
+
+      try {
+
+        const url = new URL(videoUrl);
+
+        const pathParts = url.pathname
+          .split("/")
+          .filter(Boolean);
+
+        const videoId = pathParts.find(
+          part => /^\d+$/.test(part)
+        );
+
+
+        if (videoId) {
+
+          return (
+            "https://player.vimeo.com/video/" +
+            videoId +
+            "?autoplay=1"
+          );
+
+        }
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Invalid Vimeo URL:",
+          videoUrl
+        );
+
+      }
+
+    }
+
+
+    return "";
+
+  }
+
+
+  function openVideo() {
+
+    const videoUrl = videoProject.dataset.video;
+
+    const embedUrl = getEmbedUrl(videoUrl);
+
+
+    if (!embedUrl) {
+      return;
+    }
+
+
+    player.src = embedUrl;
+
+    modal.classList.add("active");
+
+    modal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+    document.body.style.overflow = "hidden";
+
+  }
+
+
+  function closeVideo() {
+
+    modal.classList.remove("active");
+
+    modal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    player.src = "";
+
+    document.body.style.overflow = "";
+
+  }
+
+
+  if (videoProject) {
+
+    videoProject.addEventListener(
+      "click",
+      openVideo
+    );
+
+
+    videoProject.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Enter" ||
+          event.key === " "
+        ) {
+
+          event.preventDefault();
+
+          openVideo();
+
+        }
+
+      }
+    );
+
+  }
+
+
+  closeButton.addEventListener(
+    "click",
+    closeVideo
+  );
+
+
+  modal.addEventListener(
+    "click",
+    event => {
+
+      if (event.target === modal) {
+
+        closeVideo();
+
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Escape" &&
+        modal.classList.contains("active")
+      ) {
+
+        closeVideo();
+
+      }
+
+    }
+  );
+
+});
+
+</script>
+
+{% endif %}
