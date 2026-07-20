@@ -459,3 +459,261 @@
   }
 
 }
+/* ==========================================================
+   SERVICE CARDS — OPTIMIZED VHS + DESKTOP HOVER
+========================================================== */
+
+.monitor {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.monitor .mscreen {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 5px;
+}
+
+.monitor .mscreen > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* ==========================================================
+   DESKTOP / HOVER DEVICES ONLY
+
+   Important:
+   VHS texture, animation, glow and hover transitions are
+   created ONLY on devices that actually support hover.
+========================================================== */
+
+@media (hover: hover) and (pointer: fine) {
+
+  .monitor {
+    transition:
+      transform 0.28s ease,
+      border-color 0.28s ease,
+      box-shadow 0.28s ease;
+  }
+
+  .monitor .mscreen {
+    transition:
+      transform 0.28s ease,
+      border-color 0.28s ease,
+      box-shadow 0.28s ease;
+  }
+
+
+  /* --------------------------------------------------------
+     VHS SCANLINES
+  -------------------------------------------------------- */
+
+  .monitor .mscreen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    z-index: 1;
+    pointer-events: none;
+
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.022) 0,
+        rgba(255, 255, 255, 0.022) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+
+    opacity: 0.55;
+  }
+
+
+  /* --------------------------------------------------------
+     DESKTOP HOVER
+  -------------------------------------------------------- */
+
+  .monitor:hover {
+    transform:
+      translateY(-5px)
+      scale(1.01);
+
+    border-color:
+      rgba(251, 174, 23, 0.48);
+
+    box-shadow:
+      0 20px 45px
+        rgba(0, 0, 0, 0.26),
+
+      0 0 24px
+        rgba(251, 174, 23, 0.08);
+  }
+
+
+  .monitor:hover .mscreen {
+    transform:
+      scale(1.012);
+
+    border-color:
+      rgba(251, 174, 23, 0.28);
+
+    box-shadow:
+      inset 0 0 25px
+        rgba(0, 0, 0, 0.18);
+  }
+
+
+  /* --------------------------------------------------------
+     VHS INTERFERENCE
+
+     Created only while hovering.
+     No permanent second noise layer.
+  -------------------------------------------------------- */
+
+  .monitor:hover .mscreen::after {
+    content: "";
+
+    position: absolute;
+    inset: -10% 0;
+
+    z-index: 1;
+    pointer-events: none;
+
+    background:
+
+      linear-gradient(
+        to bottom,
+
+        transparent 0%,
+
+        rgba(255, 255, 255, 0.025) 45%,
+
+        rgba(251, 174, 23, 0.035) 50%,
+
+        transparent 56%
+      );
+
+    animation:
+      service-vhs-scan
+      1.8s
+      linear
+      infinite;
+  }
+
+
+  /* Icon */
+
+  .monitor .mscreen svg {
+    transition:
+      color 0.25s ease,
+      transform 0.25s ease;
+  }
+
+
+  .monitor:hover .mscreen svg {
+    color: var(--tally);
+
+    transform:
+      translateY(-2px);
+  }
+
+
+  /* Title */
+
+  .monitor .sname {
+    transition:
+      color 0.25s ease;
+  }
+
+
+  .monitor:hover .sname {
+    color: var(--white);
+  }
+
+}
+
+
+/* ==========================================================
+   VHS SCAN ANIMATION
+========================================================== */
+
+@keyframes service-vhs-scan {
+
+  from {
+    transform:
+      translateY(-55%);
+  }
+
+  to {
+    transform:
+      translateY(55%);
+  }
+
+}
+
+
+/* ==========================================================
+   ACTIVE SERVICE
+========================================================== */
+
+.monitor.active {
+  border-color:
+    rgba(251, 174, 23, 0.82);
+}
+
+
+/* ==========================================================
+   MOBILE — ZERO EXTRA VHS RENDERING
+========================================================== */
+
+@media (max-width: 760px) {
+
+  /*
+     Explicitly remove pseudo-elements in case older
+     VHS CSS still exists earlier in style.css.
+  */
+
+  .monitor .mscreen::before,
+  .monitor .mscreen::after {
+    content: none !important;
+    display: none !important;
+    animation: none !important;
+  }
+
+
+  /*
+     Remove unnecessary animation calculations
+  */
+
+  .monitor,
+  .monitor .mscreen,
+  .monitor .mscreen svg,
+  .monitor .sname {
+    transition: none !important;
+  }
+
+
+  /*
+     Prevent desktop transforms from older rules
+  */
+
+  .monitor:hover,
+  .monitor:hover .mscreen {
+    transform: none !important;
+  }
+
+
+  /*
+     Avoid expensive hover shadows on touch devices
+  */
+
+  .monitor:hover {
+    box-shadow:
+      0 10px 28px
+      rgba(0, 0, 0, 0.18);
+  }
+
+}
