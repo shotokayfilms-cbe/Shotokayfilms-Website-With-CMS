@@ -295,3 +295,71 @@
   /* CTA BANNER */
   .cta-banner { padding:60px 0; text-align:center; border-top:1px solid var(--border); }
   .cta-banner h2 { font-size:clamp(24px,5vw,38px); margin-bottom:20px; }
+
+
+/* CINEMATIC ATMOSPHERE + LIQUID GLASS */
+body {
+  background-color: var(--void);
+  background-image:
+    radial-gradient(950px 580px at 100% -10%, rgba(251,174,23,.16), transparent 62%),
+    radial-gradient(780px 520px at -12% 72%, rgba(88,89,91,.25), transparent 60%),
+    linear-gradient(145deg, #1b1f22 0%, #15191c 48%, #201b16 100%);
+  background-attachment: fixed;
+}
+header.nav {
+  background: linear-gradient(115deg, rgba(29,33,36,.86), rgba(20,23,25,.72));
+  border-bottom-color: rgba(237,237,236,.18);
+  box-shadow: 0 14px 42px rgba(0,0,0,.22);
+  backdrop-filter: blur(18px) saturate(135%);
+}
+.pgm-monitor, .monitor, .wall-panel, .slip, .pf-card, .about-frame,
+.info-card, .sd-icon, .project-video-player, .project-gallery-item {
+  background: linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.025));
+  border: 1px solid rgba(237,237,236,.16);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 18px 46px rgba(0,0,0,.24);
+  backdrop-filter: blur(18px) saturate(125%);
+}
+.monitor, .pf-card, .info-card, .project-gallery-item {
+  transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease;
+}
+.monitor:hover, .pf-card:hover, .info-card:hover, .project-gallery-item:hover {
+  border-color: rgba(251,174,23,.78);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 20px 52px rgba(0,0,0,.30), 0 0 32px rgba(251,174,23,.10);
+}
+@media (min-width: 480px) {
+  .portfolio-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.project-gallery { padding: 28px 0 72px; }
+.project-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.project-gallery-item {
+  margin: 0;
+  padding: 6px;
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+.project-gallery-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  transition: transform .45s ease, filter .45s ease;
+}
+.project-gallery-item:hover img {
+  transform: scale(1.045);
+  filter: saturate(1.08) contrast(1.03);
+}
+@media (min-width: 768px) {
+  .project-gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+}
+@media (min-width: 1100px) {
+  .project-gallery-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-gallery-item img { transition: none; }
+}
