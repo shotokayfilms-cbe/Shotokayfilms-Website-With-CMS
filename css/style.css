@@ -717,3 +717,105 @@
   }
 
 }
+/* ==========================================================
+   SERVICE CLICK DESCRIPTION PANEL
+========================================================== */
+
+.wall-panel[hidden] {
+  display: none;
+}
+
+.wall-panel {
+  margin-top: 22px;
+  padding: 24px 28px;
+
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.065),
+      rgba(255, 255, 255, 0.018)
+    );
+
+  opacity: 0;
+  transform: translateY(8px);
+
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.wall-panel.panel-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.wall-panel-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
+}
+
+.wall-panel-copy {
+  max-width: 700px;
+}
+
+.wall-panel-label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: var(--tally);
+
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.wall-panel h3 {
+  margin: 0 0 7px;
+
+  font-family: "Big Shoulders Display", sans-serif;
+  font-size: 28px;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.wall-panel p {
+  margin: 0;
+
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 760px) {
+
+  .wall-panel {
+    margin-top: 14px;
+    padding: 18px;
+
+    border-radius: 9px;
+
+    /* No glass blur or expensive effects */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+
+    transition: none;
+  }
+
+  .wall-panel-content {
+    display: block;
+  }
+
+  .wall-panel .btn-rec {
+    margin-top: 18px;
+  }
+
+}
