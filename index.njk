@@ -327,10 +327,6 @@ permalink: /
 
   <div class="wrap">
 
-    <span class="eyebrow mono">
-      CLIENT ROSTER
-    </span>
-
     <h2>
       Brands we've created with
     </h2>
@@ -340,7 +336,10 @@ permalink: /
 
       <div class="client-track">
 
-        {# ORIGINAL LOGOS #}
+
+        {# ==================================================
+           ORIGINAL LOGOS
+        =================================================== #}
 
         {% for client in clients.clients %}
 
@@ -381,7 +380,10 @@ permalink: /
         {% endfor %}
 
 
-        {# DUPLICATE SET FOR SEAMLESS DESKTOP LOOP #}
+
+        {# ==================================================
+           DUPLICATE SET 1
+        =================================================== #}
 
         {% for client in clients.clients %}
 
@@ -425,6 +427,55 @@ permalink: /
 
         {% endfor %}
 
+
+
+        {# ==================================================
+           DUPLICATE SET 2
+        =================================================== #}
+
+        {% for client in clients.clients %}
+
+          {% if client.url %}
+
+            <a
+              href="{{ client.url }}"
+              target="_blank"
+              rel="noopener"
+              class="client-logo client-logo-clone"
+              aria-hidden="true"
+              tabindex="-1"
+            >
+
+              <img
+                src="{{ client.logo }}"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              >
+
+            </a>
+
+          {% else %}
+
+            <div
+              class="client-logo client-logo-clone"
+              aria-hidden="true"
+            >
+
+              <img
+                src="{{ client.logo }}"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              >
+
+            </div>
+
+          {% endif %}
+
+        {% endfor %}
+
+
       </div>
 
     </div>
@@ -434,7 +485,6 @@ permalink: /
 </section>
 
 {% endif %}
-
 
 <!-- ========================================================
      VIDEO POPUP
