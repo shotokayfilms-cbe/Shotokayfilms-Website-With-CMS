@@ -1,156 +1,805 @@
-// ===== Ticking timecode (decorative, broadcast monitor readout) =====
-function initTimecode() {
-  const tcEls = document.querySelectorAll(".tc");
-  if (!tcEls.length) return;
-  const start = Date.now();
-  function pad(n) { return String(n).padStart(2, "0"); }
-  setInterval(() => {
-    const elapsed = Date.now() - start;
-    const totalFrames = Math.floor(elapsed / (1000 / 24));
-    const ff = totalFrames % 24;
-    const totalSec = Math.floor(totalFrames / 24);
-    const ss = totalSec % 60;
-    const mm = Math.floor(totalSec / 60) % 60;
-    const hh = Math.floor(totalSec / 3600);
-    const tc = `${pad(hh)}:${pad(mm)}:${pad(ss)}:${pad(ff)}`;
-    tcEls.forEach(el => el.textContent = tc);
-  }, 1000 / 24);
-}
+// ===== Ambient background glow — desktop cursor + scroll sync =====
+function initAmbientGlow() {
+  const root = document.documentElement;
 
-// ===== Waveform bars — organic amplitude, cursor-reactive, with dynamic peak accents =====
-function initWaveform() {
-  const wf = document.getElementById("waveform");
-  if (!wf) return;
-  const BAR_COUNT = 72;
+  const isMobile = window.matchMedia(
+    "(max-width: 760px)"
+  ).matches;
 
-  const bars = [];
-  for (let i = 0; i < BAR_COUNT; i++) {
-    const bar = document.createElement("div");
-    bar.className = "bar";
-    // per-bar random seed so each bar's motion looks independent, not a single clean ripple
-    bar.dataset.seed = (Math.random() * 100).toFixed(2);
-    wf.appendChild(bar);
-    bars.push(bar);
-  }
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion) {
-    bars.forEach((bar, i) => { bar.style.height = (5 + ((i * 7) % 13) * 2) + "px"; });
+  // Keep mobile lightweight.
+  if (isMobile || reduceMotion) {
+    root.style.setProperty("--cursor-x", "50%");
+    root.style.setProperty("--cursor-y", "30%");
+    root.style.setProperty("--scroll-shift", "0px");
     return;
   }
 
-  // Track the cursor's horizontal position relative to the waveform's width (0–1)
-  let cursorX = null;
-  function updateCursor(clientX) {
-    const rect = wf.getBoundingClientRect();
-    const relX = (clientX - rect.left) / rect.width;
-    cursorX = (relX >= -0.15 && relX <= 1.15) ? relX : null;
+  let targetX = window.innerWidth * 0.5;
+  let targetY = window.innerHeight * 0.3;
+
+  let currentX = targetX;
+  let currentY = targetY;
+
+  let scrollShift = 0;
+  let rafId = null;
+
+  function render() {
+    // Smoothly follow the cursor
+    currentX += (targetX - currentX) * 0.09;
+    currentY += (targetY - currentY) * 0.09;
+
+    root.style.setProperty(
+      "--cursor-x",
+      `${currentX}px`
+    );
+
+    root.style.setProperty(
+      "--cursor-y",
+      `${currentY}px`
+    );
+
+    root.style.setProperty(
+      "--scroll-shift",
+      `${scrollShift}px`
+    );
+
+    const moving =
+      Math.abs(targetX - currentX) > 0.2 ||
+      Math.abs(targetY - currentY) > 0.2;
+
+    if (moving) {
+      rafId = requestAnimationFrame(render);
+    } else {
+      rafId = null;
+    }
   }
-  window.addEventListener("mousemove", (e) => updateCursor(e.clientX));
-  window.addEventListener("mouseleave", () => { cursorX = null; });
-  window.addEventListener("touchmove", (e) => {
-    if (e.touches && e.touches[0]) updateCursor(e.touches[0].clientX);
-  }, { passive: true });
 
-  function animateWaveform(t) {
-    const scrollY = window.scrollY || 0;
-    bars.forEach((bar, i) => {
-      const seed = parseFloat(bar.dataset.seed);
-      const basePhase = t * 0.0004 + scrollY * 0.01 + i * 0.35;
-      // layer three offset sine waves per bar so the shape reads as irregular audio, not a clean ripple
-      const wave =
-        0.5 * Math.sin(basePhase) +
-        0.3 * Math.sin(basePhase * 1.9 + seed) +
-        0.2 * Math.sin(basePhase * 3.3 + seed * 2);
-      let h = 5 + (wave + 1) * 15;
+  function requestRender() {
+    if (!rafId) {
+      rafId = requestAnimationFrame(render);
+    }
+  }
 
-      // Cursor proximity — bars near the pointer rise higher, like the waveform is responding to a scrub
-      let boosted = false;
-      if (cursorX !== null) {
-        const barPos = i / (BAR_COUNT - 1);
-        const dist = Math.abs(barPos - cursorX);
-        const influence = Math.max(0, 1 - dist / 0.12);
-        if (influence > 0) {
-          h += influence * 22;
-          boosted = influence > 0.35;
+  // Desktop cursor tracking
+  window.addEventListener(
+    "pointermove",
+    event => {
+      targetX = event.clientX;
+      targetY = event.clientY;
+
+      requestRender();
+    },
+    {
+      passive: true
+    }
+  );
+
+  // Scroll-reactive ambient background
+  window.addEventListener(
+    "scroll",
+    () => {
+      scrollShift = Math.min(
+        140,
+        window.scrollY * 0.06
+      );
+
+      root.style.setProperty(
+        "--scroll-shift",
+        `${scrollShift}px`
+      );
+    },
+    {
+      passive: true
+    }
+  );
+
+  requestRender();
+}
+
+
+// ===== Ticking timecode =====
+function initTimecode() {
+  const tcEls = document.querySelectorAll(".tc");
+
+  if (!tcEls.length) return;
+
+  const start = Date.now();
+
+  function pad(n) {
+    return String(n).padStart(2, "0");
+  }
+
+  setInterval(() => {
+    const elapsed = Date.now() - start;
+
+    const totalFrames = Math.floor(
+      elapsed / (1000 / 24)
+    );
+
+    const ff = totalFrames % 24;
+
+    const totalSec = Math.floor(
+      totalFrames / 24
+    );
+
+    const ss = totalSec % 60;
+
+    const mm =
+      Math.floor(totalSec / 60) % 60;
+
+    const hh =
+      Math.floor(totalSec / 3600);
+
+    const tc =
+      `${pad(hh)}:${pad(mm)}:${pad(ss)}:${pad(ff)}`;
+
+    tcEls.forEach(el => {
+      el.textContent = tc;
+    });
+
+  }, 1000 / 24);
+}
+
+
+// ===== Waveform bars — organic + cursor + scroll response =====
+function initWaveform() {
+  const wf =
+    document.getElementById("waveform");
+
+  if (!wf) return;
+
+  const isMobile =
+    window.matchMedia(
+      "(max-width: 760px)"
+    ).matches;
+
+  const reduceMotion =
+    window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+  // Fewer bars on mobile
+  const BAR_COUNT =
+    isMobile ? 36 : 72;
+
+  const bars = [];
+
+  // Clear existing bars first
+  wf.innerHTML = "";
+
+  for (
+    let i = 0;
+    i < BAR_COUNT;
+    i++
+  ) {
+
+    const bar =
+      document.createElement("div");
+
+    bar.className = "bar";
+
+    // Independent seed for irregular movement
+    bar.dataset.seed =
+      (
+        Math.random() * 100
+      ).toFixed(2);
+
+    wf.appendChild(bar);
+
+    bars.push(bar);
+  }
+
+
+  // Reduced-motion fallback
+  if (reduceMotion) {
+
+    bars.forEach(
+      (bar, i) => {
+
+        bar.style.height =
+          (
+            5 +
+            ((i * 7) % 13) * 2
+          ) +
+          "px";
+
+      }
+    );
+
+    return;
+  }
+
+
+  // ========================================================
+  // MOBILE
+  // Scroll response only — no continuous animation
+  // ========================================================
+
+  if (isMobile) {
+
+    let ticking = false;
+
+    function renderMobileWaveform() {
+
+      const scrollY =
+        window.scrollY || 0;
+
+      bars.forEach(
+        (bar, i) => {
+
+          const seed =
+            parseFloat(
+              bar.dataset.seed
+            );
+
+          const wave =
+            Math.sin(
+              scrollY * 0.012 +
+              i * 0.55 +
+              seed
+            );
+
+          const height =
+            8 +
+            (wave + 1) * 9;
+
+          bar.style.height =
+            `${height}px`;
+
+          // Sparse orange accent peaks
+          bar.classList.toggle(
+            "accent",
+            wave > 0.72
+          );
+
         }
-      }
+      );
 
-      // Accent color follows the motion itself — genuine peaks and cursor-boosted bars light up,
-      // instead of a fixed random set assigned once on load
-      const isPeak = wave > 0.72;
-      bar.classList.toggle("accent", isPeak || boosted);
-      bar.style.height = h + "px";
-    });
-    requestAnimationFrame(animateWaveform);
-  }
-  requestAnimationFrame(animateWaveform);
-}
-
-// ===== Home page monitor wall — click a monitor to update the panel below =====
-function initWallGrid() {
-  const grid = document.querySelector(".wall-grid");
-  const panel = document.querySelector(".wall-panel");
-  if (!grid || !panel) return;
-
-  grid.querySelectorAll(".monitor").forEach(item => {
-    item.addEventListener("click", () => {
-      grid.querySelectorAll(".monitor").forEach(el => {
-        const isActive = el === item;
-        el.classList.toggle("active", isActive);
-        el.querySelector(".tally-dot").classList.toggle("on", isActive);
-      });
-      const name = item.querySelector(".sname").textContent;
-      // Data attributes carry the headline/description/link, set server-side
-      const headline = item.dataset.headline;
-      const desc = item.dataset.desc;
-      if (headline && desc) {
-        panel.innerHTML = `
-          <h3>${headline}</h3>
-          <p>${desc}</p>
-          <a href="/contact/?service=${encodeURIComponent(name)}" class="btn-rec">Quote this shoot</a>
-        `;
-      }
-    });
-  });
-}
-
-// ===== Contact page: quote form + WhatsApp send =====
-function initQuoteForm() {
-  const form = document.getElementById("quoteForm");
-  if (!form) return;
-  const serviceSelect = document.getElementById("service");
-  const whatsappNumber = document.body.dataset.whatsapp;
-
-  // Pre-fill from ?service= query param (arriving from Home/Services links)
-  const params = new URLSearchParams(window.location.search);
-  const preselect = params.get("service");
-  if (preselect) {
-    const match = Array.from(serviceSelect.options).find(o => o.value === preselect);
-    if (match) serviceSelect.value = preselect;
-  }
-
-  document.getElementById("sendBtn").addEventListener("click", () => {
-    const name = document.getElementById("name").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const service = serviceSelect.value;
-    const budget = document.getElementById("budget").value;
-    const message = document.getElementById("message").value.trim();
-
-    if (!name || !phone) {
-      alert("Please add your name and phone number so we can reach you.");
-      return;
+      ticking = false;
     }
 
-    const text = `Hi Shot Okay Films, I'd like a quote.%0A%0AName: ${encodeURIComponent(name)}%0APhone: +91 ${encodeURIComponent(phone)}%0AService: ${encodeURIComponent(service)}%0ABudget: ${encodeURIComponent(budget)}${message ? "%0ANotes: " + encodeURIComponent(message) : ""}`;
 
-    window.open(`https://wa.me/${whatsappNumber}?text=${text}`, "_blank");
-  });
+    window.addEventListener(
+      "scroll",
+      () => {
+
+        if (!ticking) {
+
+          ticking = true;
+
+          requestAnimationFrame(
+            renderMobileWaveform
+          );
+
+        }
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    renderMobileWaveform();
+
+    return;
+  }
+
+
+  // ========================================================
+  // DESKTOP WAVEFORM
+  // ========================================================
+
+  let cursorX = null;
+
+
+  function updateCursor(clientX) {
+
+    const rect =
+      wf.getBoundingClientRect();
+
+    const relX =
+      (
+        clientX -
+        rect.left
+      ) /
+      rect.width;
+
+
+    cursorX =
+      (
+        relX >= -0.15 &&
+        relX <= 1.15
+      )
+        ? relX
+        : null;
+
+  }
+
+
+  window.addEventListener(
+    "mousemove",
+    event => {
+
+      updateCursor(
+        event.clientX
+      );
+
+    },
+    {
+      passive: true
+    }
+  );
+
+
+  window.addEventListener(
+    "mouseleave",
+    () => {
+
+      cursorX = null;
+
+    }
+  );
+
+
+  function animateWaveform(t) {
+
+    const scrollY =
+      window.scrollY || 0;
+
+
+    bars.forEach(
+      (bar, i) => {
+
+        const seed =
+          parseFloat(
+            bar.dataset.seed
+          );
+
+
+        const basePhase =
+
+          t *
+          0.0004 +
+
+          scrollY *
+          0.01 +
+
+          i *
+          0.35;
+
+
+        // Multiple frequencies create
+        // a more organic audio shape
+        const wave =
+
+          0.5 *
+          Math.sin(
+            basePhase
+          ) +
+
+          0.3 *
+          Math.sin(
+            basePhase *
+            1.9 +
+            seed
+          ) +
+
+          0.2 *
+          Math.sin(
+            basePhase *
+            3.3 +
+            seed *
+            2
+          );
+
+
+        let height =
+          5 +
+          (wave + 1) *
+          15;
+
+
+        // Cursor interaction
+        let boosted = false;
+
+
+        if (
+          cursorX !== null
+        ) {
+
+          const barPosition =
+            i /
+            (
+              BAR_COUNT -
+              1
+            );
+
+
+          const distance =
+            Math.abs(
+              barPosition -
+              cursorX
+            );
+
+
+          const influence =
+            Math.max(
+              0,
+              1 -
+              distance /
+              0.12
+            );
+
+
+          if (
+            influence > 0
+          ) {
+
+            height +=
+              influence *
+              22;
+
+
+            boosted =
+              influence >
+              0.35;
+
+          }
+
+        }
+
+
+        // Orange accent on genuine peaks
+        // and cursor-reactive bars
+        const isPeak =
+          wave > 0.72;
+
+
+        bar.classList.toggle(
+          "accent",
+          isPeak ||
+          boosted
+        );
+
+
+        bar.style.height =
+          `${height}px`;
+
+      }
+    );
+
+
+    requestAnimationFrame(
+      animateWaveform
+    );
+
+  }
+
+
+  requestAnimationFrame(
+    animateWaveform
+  );
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  initTimecode();
-  initWaveform();
-  initWallGrid();
-  initQuoteForm();
-});
+
+// ===== Home service monitor cards =====
+function initWallGrid() {
+
+  const grid =
+    document.querySelector(
+      ".wall-grid"
+    );
+
+  const panel =
+    document.querySelector(
+      ".wall-panel"
+    );
+
+
+  // The panel was intentionally removed.
+  // Service cards still work normally.
+  if (!grid) return;
+
+
+  grid
+    .querySelectorAll(
+      ".monitor"
+    )
+    .forEach(
+      item => {
+
+        item.addEventListener(
+          "click",
+          () => {
+
+            grid
+              .querySelectorAll(
+                ".monitor"
+              )
+              .forEach(
+                el => {
+
+                  const isActive =
+                    el === item;
+
+
+                  el.classList.toggle(
+                    "active",
+                    isActive
+                  );
+
+
+                  const tallyDot =
+                    el.querySelector(
+                      ".tally-dot"
+                    );
+
+
+                  if (tallyDot) {
+
+                    tallyDot.classList.toggle(
+                      "on",
+                      isActive
+                    );
+
+                  }
+
+                }
+              );
+
+
+            // Only update the old detail panel
+            // if it still exists on another page/version
+            if (panel) {
+
+              const nameElement =
+                item.querySelector(
+                  ".sname"
+                );
+
+
+              const name =
+                nameElement
+                  ? nameElement.textContent
+                  : "";
+
+
+              const headline =
+                item.dataset.headline;
+
+
+              const desc =
+                item.dataset.desc;
+
+
+              if (
+                headline &&
+                desc
+              ) {
+
+                panel.innerHTML = `
+
+                  <h3>
+                    ${headline}
+                  </h3>
+
+                  <p>
+                    ${desc}
+                  </p>
+
+                  <a
+                    href="/contact/?service=${encodeURIComponent(name)}"
+                    class="btn-rec"
+                  >
+                    Quote this shoot
+                  </a>
+
+                `;
+
+              }
+
+            }
+
+          }
+        );
+
+      }
+    );
+}
+
+
+// ===== Contact page: quote form + WhatsApp =====
+function initQuoteForm() {
+
+  const form =
+    document.getElementById(
+      "quoteForm"
+    );
+
+  if (!form) return;
+
+
+  const serviceSelect =
+    document.getElementById(
+      "service"
+    );
+
+
+  const whatsappNumber =
+    document.body.dataset.whatsapp;
+
+
+  // Pre-fill service from URL
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const preselect =
+    params.get(
+      "service"
+    );
+
+
+  if (
+    preselect &&
+    serviceSelect
+  ) {
+
+    const match =
+      Array
+        .from(
+          serviceSelect.options
+        )
+        .find(
+          option =>
+            option.value ===
+            preselect
+        );
+
+
+    if (match) {
+
+      serviceSelect.value =
+        preselect;
+
+    }
+
+  }
+
+
+  const sendButton =
+    document.getElementById(
+      "sendBtn"
+    );
+
+
+  if (!sendButton) return;
+
+
+  sendButton.addEventListener(
+    "click",
+    () => {
+
+      const name =
+        document
+          .getElementById(
+            "name"
+          )
+          .value
+          .trim();
+
+
+      const phone =
+        document
+          .getElementById(
+            "phone"
+          )
+          .value
+          .trim();
+
+
+      const service =
+        serviceSelect
+          ? serviceSelect.value
+          : "";
+
+
+      const budget =
+        document
+          .getElementById(
+            "budget"
+          )
+          .value;
+
+
+      const message =
+        document
+          .getElementById(
+            "message"
+          )
+          .value
+          .trim();
+
+
+      if (
+        !name ||
+        !phone
+      ) {
+
+        alert(
+          "Please add your name and phone number so we can reach you."
+        );
+
+        return;
+
+      }
+
+
+      const text =
+
+        `Hi Shot Okay Films, I'd like a quote.` +
+
+        `%0A%0AName: ${
+          encodeURIComponent(name)
+        }` +
+
+        `%0APhone: +91 ${
+          encodeURIComponent(phone)
+        }` +
+
+        `%0AService: ${
+          encodeURIComponent(service)
+        }` +
+
+        `%0ABudget: ${
+          encodeURIComponent(budget)
+        }` +
+
+        (
+          message
+            ? `%0ANotes: ${
+                encodeURIComponent(
+                  message
+                )
+              }`
+            : ""
+        );
+
+
+      window.open(
+
+        `https://wa.me/${whatsappNumber}?text=${text}`,
+
+        "_blank"
+
+      );
+
+    }
+  );
+}
+
+
+// ===== Initialize everything =====
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    initAmbientGlow();
+
+    initTimecode();
+
+    initWaveform();
+
+    initWallGrid();
+
+    initQuoteForm();
+
+  }
+);
