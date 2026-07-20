@@ -489,129 +489,83 @@ function initWaveform() {
 
 // ===== Home service monitor cards =====
 function initWallGrid() {
+  const grid = document.querySelector(".wall-grid");
+  const panel = document.getElementById("servicePanel");
 
-  const grid =
-    document.querySelector(
-      ".wall-grid"
-    );
+  if (!grid || !panel) return;
 
-  const panel =
-    document.querySelector(
-      ".wall-panel"
-    );
+  const cards = grid.querySelectorAll(".monitor");
 
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
 
-  // The panel was intentionally removed.
-  // Service cards still work normally.
-  if (!grid) return;
+      // Remove active state from all cards
+      cards.forEach(item => {
+        item.classList.remove("active");
 
+        const dot = item.querySelector(".tally-dot");
 
-  grid
-    .querySelectorAll(
-      ".monitor"
-    )
-    .forEach(
-      item => {
+        if (dot) {
+          dot.classList.remove("on");
+        }
+      });
 
-        item.addEventListener(
-          "click",
-          () => {
+      // Activate clicked card
+      card.classList.add("active");
 
-            grid
-              .querySelectorAll(
-                ".monitor"
-              )
-              .forEach(
-                el => {
+      const activeDot = card.querySelector(".tally-dot");
 
-                  const isActive =
-                    el === item;
-
-
-                  el.classList.toggle(
-                    "active",
-                    isActive
-                  );
-
-
-                  const tallyDot =
-                    el.querySelector(
-                      ".tally-dot"
-                    );
-
-
-                  if (tallyDot) {
-
-                    tallyDot.classList.toggle(
-                      "on",
-                      isActive
-                    );
-
-                  }
-
-                }
-              );
-
-
-            // Only update the old detail panel
-            // if it still exists on another page/version
-            if (panel) {
-
-              const nameElement =
-                item.querySelector(
-                  ".sname"
-                );
-
-
-              const name =
-                nameElement
-                  ? nameElement.textContent
-                  : "";
-
-
-              const headline =
-                item.dataset.headline;
-
-
-              const desc =
-                item.dataset.desc;
-
-
-              if (
-                headline &&
-                desc
-              ) {
-
-                panel.innerHTML = `
-
-                  <h3>
-                    ${headline}
-                  </h3>
-
-                  <p>
-                    ${desc}
-                  </p>
-
-                  <a
-                    href="/contact/?service=${encodeURIComponent(name)}"
-                    class="btn-rec"
-                  >
-                    Quote this shoot
-                  </a>
-
-                `;
-
-              }
-
-            }
-
-          }
-        );
-
+      if (activeDot) {
+        activeDot.classList.add("on");
       }
-    );
-}
 
+      // Read content already stored in index.njk
+      const serviceName =
+        card.querySelector(".sname")?.textContent.trim() || "";
+
+      const headline =
+        card.dataset.headline || serviceName;
+
+      const description =
+        card.dataset.desc || "";
+
+      // Build description panel
+      panel.innerHTML = `
+        <div class="wall-panel-content">
+
+          <div class="wall-panel-copy">
+            <span class="wall-panel-label">
+              NOW SELECTED
+            </span>
+
+            <h3>${headline}</h3>
+
+            <p>${description}</p>
+          </div>
+
+          <a
+            href="/contact/?service=${encodeURIComponent(serviceName)}"
+            class="btn-rec"
+          >
+            <span class="rec-dot"></span>
+            Quote this shoot
+          </a>
+
+        </div>
+      `;
+
+      // Show panel
+      panel.hidden = false;
+
+      // Restart entrance animation
+      panel.classList.remove("panel-visible");
+
+      requestAnimationFrame(() => {
+        panel.classList.add("panel-visible");
+      });
+    });
+  });
+}
 
 // ===== Contact page: quote form + WhatsApp =====
 function initQuoteForm() {
