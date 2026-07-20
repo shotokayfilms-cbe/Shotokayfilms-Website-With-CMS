@@ -513,47 +513,148 @@
 
 
 /* ==========================================================
-   GLOBAL BACKGROUND
+   CINEMATIC AMBIENT BACKGROUND + TRUE GLASS
 ========================================================== */
 
 body {
- position: relative;
+  position: relative;
 
   background:
-    /* Subtle cursor-following warm ambience */
+    /* Cursor-reactive warm light */
     radial-gradient(
-      750px circle at var(--cursor-x) var(--cursor-y),
-      rgba(251, 174, 23, 0.07),
-      transparent 55%
+      700px circle at var(--cursor-x) var(--cursor-y),
+      rgba(251, 174, 23, 0.12),
+      transparent 52%
     ),
 
-    /* Soft brighter graphite illumination */
+    /* Large warm glow behind upper content */
     radial-gradient(
-      1000px circle at 38% calc(18% + var(--scroll-shift)),
-      rgba(255, 255, 255, 0.045),
+      850px circle at 24% calc(18% + var(--scroll-shift)),
+      rgba(184, 135, 62, 0.11),
+      transparent 58%
+    ),
+
+    /* Cool graphite light for color depth */
+    radial-gradient(
+      1000px circle at 82% 38%,
+      rgba(102, 119, 128, 0.13),
       transparent 62%
     ),
 
-    /* Very subtle warm ambient area */
+    /* Lower warm ambient glow */
     radial-gradient(
-      900px circle at 68% 30%,
-      rgba(251, 174, 23, 0.025),
-      transparent 65%
+      900px circle at 62% 82%,
+      rgba(251, 174, 23, 0.055),
+      transparent 62%
     ),
 
-    /* Main Shot Okay graphite background */
+    /* Main cinematic base */
     linear-gradient(
-      145deg,
-      #292F33 0%,
-      #242B2F 28%,
-      #1E2529 58%,
-      #141A1E 100%
+      135deg,
+      #30373B 0%,
+      #252D31 28%,
+      #1C2428 62%,
+      #13191C 100%
     );
 
   background-attachment: fixed;
 }
 
 
+/* ==========================================================
+   GLASS CARDS
+========================================================== */
+
+.pgm-monitor,
+.monitor,
+.pf-card,
+.note,
+.info-card,
+.slip,
+.sd-icon,
+.about-frame {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.085) 0%,
+      rgba(255, 255, 255, 0.035) 38%,
+      rgba(255, 255, 255, 0.012) 100%
+    );
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+
+  backdrop-filter: blur(18px) saturate(125%);
+  -webkit-backdrop-filter: blur(18px) saturate(125%);
+
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+}
+
+
+/* Hero glass gets slightly stronger ambient reflection */
+
+.pgm-monitor {
+  background:
+    radial-gradient(
+      circle at 18% 10%,
+      rgba(251, 174, 23, 0.075),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.085),
+      rgba(255, 255, 255, 0.018)
+    );
+}
+
+
+/* Service cards get subtle alternating ambient reflections */
+
+.monitor:nth-child(odd),
+.pf-card:nth-child(odd) {
+  background:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(251, 174, 23, 0.055),
+      transparent 42%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.075),
+      rgba(255, 255, 255, 0.018)
+    );
+}
+
+.monitor:nth-child(even),
+.pf-card:nth-child(even) {
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(112, 128, 138, 0.09),
+      transparent 45%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.07),
+      rgba(255, 255, 255, 0.015)
+    );
+}
+
+
+/* Keep actual monitor screens darker */
+
+.pgm-screen,
+.mscreen {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(43, 51, 55, 0.88),
+      rgba(27, 34, 38, 0.82)
+    );
+
+  border: 1px solid rgba(255, 255, 255, 0.055);
+}
 /* ==========================================================
    FILM GRAIN
 ========================================================== */
