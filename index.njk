@@ -318,7 +318,7 @@ permalink: /
 
 
 <!-- ========================================================
-     CLIENT ROSTER
+     CLIENT ROSTER — SEAMLESS INFINITE LOOP
 ========================================================= -->
 
 {% if clients.clients and clients.clients.length %}
@@ -331,149 +331,96 @@ permalink: /
       Brands we've created with
     </h2>
 
-
     <div class="client-reel">
 
       <div class="client-track">
 
 
-        {# ==================================================
-           ORIGINAL LOGOS
-        =================================================== #}
+        {# ================= ORIGINAL SET ================= #}
 
-        {% for client in clients.clients %}
+        <div class="client-group">
 
-          {% if client.url %}
+          {% for client in clients.clients %}
 
-            <a
-              href="{{ client.url }}"
-              target="_blank"
-              rel="noopener"
-              class="client-logo"
-              aria-label="{{ client.name }}"
-            >
+            {% if client.url %}
 
-              <img
-                src="{{ client.logo }}"
-                alt="{{ client.alt or client.name }}"
-                loading="lazy"
-                decoding="async"
+              <a
+                href="{{ client.url }}"
+                target="_blank"
+                rel="noopener"
+                class="client-logo"
+                aria-label="{{ client.name }}"
               >
+                <img
+                  src="{{ client.logo }}"
+                  alt="{{ client.alt or client.name }}"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </a>
 
-            </a>
+            {% else %}
 
-          {% else %}
+              <div class="client-logo">
+                <img
+                  src="{{ client.logo }}"
+                  alt="{{ client.alt or client.name }}"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </div>
+
+            {% endif %}
+
+          {% endfor %}
+
+        </div>
+
+
+        {# ================= DUPLICATE SET 1 ================= #}
+
+        <div
+          class="client-group client-group-clone"
+          aria-hidden="true"
+        >
+
+          {% for client in clients.clients %}
 
             <div class="client-logo">
-
               <img
                 src="{{ client.logo }}"
-                alt="{{ client.alt or client.name }}"
+                alt=""
                 loading="lazy"
                 decoding="async"
               >
-
             </div>
 
-          {% endif %}
+          {% endfor %}
 
-        {% endfor %}
+        </div>
 
 
+        {# ================= DUPLICATE SET 2 ================= #}
 
-        {# ==================================================
-           DUPLICATE SET 1
-        =================================================== #}
+        <div
+          class="client-group client-group-clone"
+          aria-hidden="true"
+        >
 
-        {% for client in clients.clients %}
+          {% for client in clients.clients %}
 
-          {% if client.url %}
-
-            <a
-              href="{{ client.url }}"
-              target="_blank"
-              rel="noopener"
-              class="client-logo client-logo-clone"
-              aria-hidden="true"
-              tabindex="-1"
-            >
-
+            <div class="client-logo">
               <img
                 src="{{ client.logo }}"
                 alt=""
                 loading="lazy"
                 decoding="async"
               >
-
-            </a>
-
-          {% else %}
-
-            <div
-              class="client-logo client-logo-clone"
-              aria-hidden="true"
-            >
-
-              <img
-                src="{{ client.logo }}"
-                alt=""
-                loading="lazy"
-                decoding="async"
-              >
-
             </div>
 
-          {% endif %}
+          {% endfor %}
 
-        {% endfor %}
-
-
-
-        {# ==================================================
-           DUPLICATE SET 2
-        =================================================== #}
-
-        {% for client in clients.clients %}
-
-          {% if client.url %}
-
-            <a
-              href="{{ client.url }}"
-              target="_blank"
-              rel="noopener"
-              class="client-logo client-logo-clone"
-              aria-hidden="true"
-              tabindex="-1"
-            >
-
-              <img
-                src="{{ client.logo }}"
-                alt=""
-                loading="lazy"
-                decoding="async"
-              >
-
-            </a>
-
-          {% else %}
-
-            <div
-              class="client-logo client-logo-clone"
-              aria-hidden="true"
-            >
-
-              <img
-                src="{{ client.logo }}"
-                alt=""
-                loading="lazy"
-                decoding="async"
-              >
-
-            </div>
-
-          {% endif %}
-
-        {% endfor %}
+        </div>
 
 
       </div>
