@@ -1144,3 +1144,54 @@ header.nav .brand-logo {
 @media (prefers-reduced-motion:reduce) {
   .nav-rec-dot { animation:none; }
 }
+
+
+/* ==========================================================
+   MOBILE PERFORMANCE OPTIMIZATION — FINAL
+   Desktop visuals remain unchanged.
+========================================================== */
+@media (max-width:760px){
+  body{
+    background:
+      radial-gradient(620px circle at 18% 10%,rgba(184,135,62,.10),transparent 58%),
+      radial-gradient(700px circle at 90% 42%,rgba(102,119,128,.10),transparent 62%),
+      linear-gradient(145deg,#2B3236 0%,#222A2E 38%,#181F23 72%,#13191C 100%);
+    background-attachment:scroll;
+  }
+  .grain-overlay{
+    top:0;left:0;width:100%;height:100%;
+    opacity:.025;animation:none;transform:none;
+  }
+  header.nav{
+    background:rgba(20,24,27,.94);
+    backdrop-filter:blur(7px);
+    -webkit-backdrop-filter:blur(7px);
+  }
+  .pgm-monitor,.monitor,.pf-card,.note,.info-card,.slip,.sd-icon,.about-frame{
+    backdrop-filter:blur(5px);
+    -webkit-backdrop-filter:blur(5px);
+    box-shadow:0 10px 28px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.055);
+  }
+  .pgm-monitor{
+    animation:none;
+    box-shadow:0 14px 36px rgba(0,0,0,.24),0 0 22px rgba(251,174,23,.07),inset 0 1px 0 rgba(255,255,255,.055);
+  }
+  .monitor:hover,.pf-card:hover,.project-gallery-item:hover img,.btn-rec:hover{transform:none;}
+  .nav-rec-dot{
+    animation:none;
+    box-shadow:0 0 6px rgba(251,174,23,.85),0 0 12px rgba(251,174,23,.30);
+  }
+  .pgm-screen::after{opacity:.45;}
+  .pf-screen::before{opacity:.25;}
+  .wall-section,.notes-section,.quote,.portfolio-category,.service-detail,.about-section,.project-gallery,.cta-banner,footer{
+    content-visibility:auto;
+    contain-intrinsic-size:1px 600px;
+  }
+}
+@media (max-width:560px){
+  .pgm-monitor,.monitor,.pf-card,.note,.info-card,.slip,.sd-icon,.about-frame{
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
+  .grain-overlay{display:none;}
+}
