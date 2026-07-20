@@ -978,3 +978,55 @@ footer {
   }
 
 }
+
+
+/* ==========================================================
+   NAVBAR BRAND — FINAL
+========================================================== */
+.nav-brand {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-shrink:0;
+}
+.nav-rec {
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  color:var(--tally);
+  white-space:nowrap;
+}
+.nav-rec-dot {
+  width:8px;
+  height:8px;
+  flex:0 0 8px;
+  border-radius:50%;
+  background:var(--tally);
+  box-shadow:0 0 7px rgba(251,174,23,.95),0 0 16px rgba(251,174,23,.45);
+  animation:navRecPulse 1.6s ease-in-out infinite alternate;
+}
+.nav-rec-label {
+  font-size:10px;
+  line-height:1;
+  letter-spacing:1px;
+}
+@keyframes navRecPulse {
+  from { opacity:.72; transform:scale(.92); box-shadow:0 0 5px rgba(251,174,23,.75),0 0 10px rgba(251,174,23,.25); }
+  to { opacity:1; transform:scale(1); box-shadow:0 0 8px rgba(251,174,23,1),0 0 18px rgba(251,174,23,.5); }
+}
+header.nav .brand-logo {
+  height:30px;
+  width:auto;
+  max-width:150px;
+  object-fit:contain;
+  display:block;
+}
+@media (max-width:760px) {
+  .nav-brand { gap:9px; }
+  .nav-rec-label { display:none; }
+  .nav-rec-dot { width:7px; height:7px; flex-basis:7px; }
+  header.nav .brand-logo { height:27px; max-width:130px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .nav-rec-dot { animation:none; }
+}
