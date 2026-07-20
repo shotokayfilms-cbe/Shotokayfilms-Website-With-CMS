@@ -162,6 +162,47 @@ collections:
 
 
   # ==========================================================
+  # CLIENTS
+  # ==========================================================
+
+  - name: "clients"
+    label: "Clients"
+
+    editor:
+      preview: false
+
+    files:
+      - name: "clients"
+        label: "Client Logos"
+        file: "_data/clients.json"
+
+        fields:
+          - label: "Clients"
+            name: "clients"
+            widget: "list"
+            summary: "{{fields.name}}"
+
+            fields:
+              - label: "Client Name"
+                name: "name"
+                widget: "string"
+
+              - label: "Client Logo"
+                name: "logo"
+                widget: "image"
+
+              - label: "Client Website"
+                name: "url"
+                widget: "string"
+                required: false
+
+              - label: "Logo Alt Text"
+                name: "alt"
+                widget: "string"
+                required: false
+                hint: "Optional. Client name will be used if left empty."
+  
+  # ==========================================================
   # SERVICES
   # ==========================================================
 
