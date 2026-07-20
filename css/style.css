@@ -517,24 +517,37 @@
 ========================================================== */
 
 body {
-  position: relative;
+ position: relative;
 
   background:
+    /* Subtle cursor-following warm ambience */
     radial-gradient(
-      650px circle at var(--cursor-x) var(--cursor-y),
-      rgba(251, 174, 23, 0.055),
+      750px circle at var(--cursor-x) var(--cursor-y),
+      rgba(251, 174, 23, 0.07),
       transparent 55%
     ),
+
+    /* Soft brighter graphite illumination */
     radial-gradient(
-      900px circle at 50% calc(20% + var(--scroll-shift)),
-      rgba(255, 255, 255, 0.025),
+      1000px circle at 38% calc(18% + var(--scroll-shift)),
+      rgba(255, 255, 255, 0.045),
+      transparent 62%
+    ),
+
+    /* Very subtle warm ambient area */
+    radial-gradient(
+      900px circle at 68% 30%,
+      rgba(251, 174, 23, 0.025),
       transparent 65%
     ),
+
+    /* Main Shot Okay graphite background */
     linear-gradient(
       145deg,
-      #20262A 0%,
-      #181D20 45%,
-      #121619 100%
+      #292F33 0%,
+      #242B2F 28%,
+      #1E2529 58%,
+      #141A1E 100%
     );
 
   background-attachment: fixed;
