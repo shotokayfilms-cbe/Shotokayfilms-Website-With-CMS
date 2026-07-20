@@ -1358,3 +1358,104 @@
   }
 
 }
+/* ==========================================================
+   CLIENT LOGOS — TRUE SEAMLESS INFINITE LOOP
+========================================================== */
+
+.client-track {
+  display: flex;
+  align-items: center;
+
+  width: max-content;
+
+  animation:
+    client-infinite-loop
+    24s
+    linear
+    infinite;
+
+  will-change: transform;
+}
+
+
+.client-group {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+}
+
+
+/* Pause when hovering on desktop */
+
+@media (hover: hover) and (pointer: fine) {
+
+  .client-reel:hover .client-track {
+    animation-play-state: paused;
+  }
+
+}
+
+
+/* 
+   There are exactly 3 identical groups.
+
+   Moving the entire track by 33.333333% moves exactly
+   one complete group.
+
+   At the animation reset point, the next identical group
+   is already in exactly the same visual position.
+*/
+
+@keyframes client-infinite-loop {
+
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(
+      -33.333333%,
+      0,
+      0
+    );
+  }
+
+}
+
+
+/* ==========================================================
+   MOBILE — NO MARQUEE ANIMATION
+========================================================== */
+
+@media (max-width: 760px) {
+
+  .client-track {
+    display: block;
+    width: 100%;
+
+    animation: none !important;
+    transform: none !important;
+    will-change: auto;
+  }
+
+
+  /* Hide duplicate sets completely */
+
+  .client-group-clone {
+    display: none !important;
+  }
+
+
+  /* Original logos become lightweight grid */
+
+  .client-group:first-child {
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 8px;
+  }
+
+}
