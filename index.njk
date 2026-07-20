@@ -340,41 +340,58 @@ permalink: /
 
       <div class="client-track">
 
-        {# ORIGINAL LOGOS #}
+  {% for repeat in [1, 2, 3, 4] %}
 
-        {% for client in clients.clients %}
+    <div
+      class="client-group"
+      {% if repeat > 1 %}
+        aria-hidden="true"
+      {% endif %}
+    >
 
-          {% if client.url %}
+      {% for client in clients.clients %}
 
-            <a
-              href="{{ client.url }}"
-              target="_blank"
-              rel="noopener"
-              class="client-logo"
-              aria-label="{{ client.name }}"
+        {% if client.url and repeat == 1 %}
+
+          <a
+            href="{{ client.url }}"
+            target="_blank"
+            rel="noopener"
+            class="client-logo"
+            aria-label="{{ client.name }}"
+          >
+
+            <img
+              src="{{ client.logo }}"
+              alt="{{ client.alt or client.name }}"
+              loading="lazy"
+              decoding="async"
             >
 
-              <img
-                src="{{ client.logo }}"
-                alt="{{ client.alt or client.name }}"
-                loading="lazy"
-                decoding="async"
-              >
+          </a>
 
-            </a>
+        {% else %}
 
-          {% else %}
+          <div class="client-logo">
 
-            <div class="client-logo">
+            <img
+              src="{{ client.logo }}"
+              alt="{% if repeat == 1 %}{{ client.alt or client.name }}{% endif %}"
+              loading="lazy"
+              decoding="async"
+            >
 
-              <img
-                src="{{ client.logo }}"
-                alt="{{ client.alt or client.name }}"
-                loading="lazy"
-                decoding="async"
-              >
+          </div>
 
-            </div>
+        {% endif %}
+
+      {% endfor %}
+
+    </div>
+
+  {% endfor %}
+
+</div>
 
           {% endif %}
 
