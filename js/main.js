@@ -17,17 +17,16 @@ function initTimecode() {
   }, 1000 / 24);
 }
 
-// ===== Waveform bars — denser, organic amplitude, with random accent peaks =====
+// ===== Waveform bars — organic amplitude, cursor-reactive, with dynamic peak accents =====
 function initWaveform() {
   const wf = document.getElementById("waveform");
   if (!wf) return;
   const BAR_COUNT = 72;
-  const ACCENT_CHANCE = 0.16; // roughly 1 in 6 bars reads as a "peak"
 
   const bars = [];
   for (let i = 0; i < BAR_COUNT; i++) {
     const bar = document.createElement("div");
-    bar.className = "bar" + (Math.random() < ACCENT_CHANCE ? " accent" : "");
+    bar.className = "bar";
     // per-bar random seed so each bar's motion looks independent, not a single clean ripple
     bar.dataset.seed = (Math.random() * 100).toFixed(2);
     wf.appendChild(bar);
@@ -40,6 +39,19 @@ function initWaveform() {
     return;
   }
 
+  // Track the cursor's horizontal position relative to the waveform's width (0–1)
+  let cursorX = null;
+  function updateCursor(clientX) {
+    const rect = wf.getBoundingClientRect();
+    const relX = (clientX - rect.left) / rect.width;
+    cursorX = (relX >= -0.15 && relX <= 1.15) ? relX : null;
+  }
+  window.addEventListener("mousemove", (e) => updateCursor(e.clientX));
+  window.addEventListener("mouseleave", () => { cursorX = null; });
+  window.addEventListener("touchmove", (e) => {
+    if (e.touches && e.touches[0]) updateCursor(e.touches[0].clientX);
+  }, { passive: true });
+
   function animateWaveform(t) {
     const scrollY = window.scrollY || 0;
     bars.forEach((bar, i) => {
@@ -50,7 +62,24 @@ function initWaveform() {
         0.5 * Math.sin(basePhase) +
         0.3 * Math.sin(basePhase * 1.9 + seed) +
         0.2 * Math.sin(basePhase * 3.3 + seed * 2);
-      const h = 5 + (wave + 1) * 15;
+      let h = 5 + (wave + 1) * 15;
+
+      // Cursor proximity — bars near the pointer rise higher, like the waveform is responding to a scrub
+      let boosted = false;
+      if (cursorX !== null) {
+        const barPos = i / (BAR_COUNT - 1);
+        const dist = Math.abs(barPos - cursorX);
+        const influence = Math.max(0, 1 - dist / 0.12);
+        if (influence > 0) {
+          h += influence * 22;
+          boosted = influence > 0.35;
+        }
+      }
+
+      // Accent color follows the motion itself — genuine peaks and cursor-boosted bars light up,
+      // instead of a fixed random set assigned once on load
+      const isPeak = wave > 0.72;
+      bar.classList.toggle("accent", isPeak || boosted);
       bar.style.height = h + "px";
     });
     requestAnimationFrame(animateWaveform);
