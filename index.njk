@@ -317,6 +317,124 @@ permalink: /
 </section>
 
 
+<!-- ========================================================
+     CLIENT ROSTER
+========================================================= -->
+
+{% if clients.clients and clients.clients.length %}
+
+<section class="client-section">
+
+  <div class="wrap">
+
+    <span class="eyebrow mono">
+      CLIENT ROSTER
+    </span>
+
+    <h2>
+      Brands we've created with
+    </h2>
+
+
+    <div class="client-reel">
+
+      <div class="client-track">
+
+        {# ORIGINAL LOGOS #}
+
+        {% for client in clients.clients %}
+
+          {% if client.url %}
+
+            <a
+              href="{{ client.url }}"
+              target="_blank"
+              rel="noopener"
+              class="client-logo"
+              aria-label="{{ client.name }}"
+            >
+
+              <img
+                src="{{ client.logo }}"
+                alt="{{ client.alt or client.name }}"
+                loading="lazy"
+                decoding="async"
+              >
+
+            </a>
+
+          {% else %}
+
+            <div class="client-logo">
+
+              <img
+                src="{{ client.logo }}"
+                alt="{{ client.alt or client.name }}"
+                loading="lazy"
+                decoding="async"
+              >
+
+            </div>
+
+          {% endif %}
+
+        {% endfor %}
+
+
+        {# DUPLICATE SET FOR SEAMLESS DESKTOP LOOP #}
+
+        {% for client in clients.clients %}
+
+          {% if client.url %}
+
+            <a
+              href="{{ client.url }}"
+              target="_blank"
+              rel="noopener"
+              class="client-logo client-logo-clone"
+              aria-hidden="true"
+              tabindex="-1"
+            >
+
+              <img
+                src="{{ client.logo }}"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              >
+
+            </a>
+
+          {% else %}
+
+            <div
+              class="client-logo client-logo-clone"
+              aria-hidden="true"
+            >
+
+              <img
+                src="{{ client.logo }}"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              >
+
+            </div>
+
+          {% endif %}
+
+        {% endfor %}
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+{% endif %}
+
 
 <!-- ========================================================
      VIDEO POPUP
