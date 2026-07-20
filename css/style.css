@@ -1502,3 +1502,36 @@
   }
 
 }
+
+/* ==========================================================
+   FORCE HOMEPAGE SECTION HEADING STYLE
+========================================================== */
+
+h2.home-section-heading {
+  width: 100% !important;
+  max-width: none !important;
+
+  margin: 0 0 42px !important;
+
+  padding: 0 !important;
+
+  text-align: left !important;
+
+  font-size: clamp(48px, 4.2vw, 68px) !important;
+  line-height: 0.95 !important;
+
+  transform: none !important;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 760px) {
+
+  h2.home-section-heading {
+    margin-bottom: 26px !important;
+
+    font-size: clamp(36px, 11vw, 48px) !important;
+  }
+
+}
