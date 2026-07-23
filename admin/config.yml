@@ -132,6 +132,11 @@ collections:
             name: "whatsapp"
             widget: "string"
 
+          - label: "Business Email"
+            name: "email"
+            widget: "string"
+            hint: "e.g. hello@shotokayfilms.com"
+            
           - label: "Address Line 1"
             name: "address_line1"
             widget: "string"
